@@ -17,4 +17,8 @@
     gap: 5px;
     white-space: pre-wrap;
   }
+
+  .details__entry {
+    line-height: 1.4;
+  }
 }

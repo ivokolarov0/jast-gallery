@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
+import DOMPurify from 'dompurify';
 
 import { getGame, base } from '../../requests'
 import Carousel from '../../components/carousel'
@@ -17,24 +18,29 @@ export const Route = createLazyFileRoute('/game/$id')({
       queryKey: ['game', id],
       queryFn: ({ queryKey }) => getGame(queryKey[1]),
     })
-    const response = data?.[0]
-    const video = response?.attributes.find(
-      (attr: any) => attr.code === 'video_html',
-    );
 
+    const response = data?.[0]
+    
     if (!response) {
       return <div>Loading...</div>
     }
+    
+    const video = response?.attributes?.find(
+      (attr: any) => attr.code === 'video_html',
+    );
 
-    const coverImage = response.images.find(
+    const coverImage = response?.images?.find(
       (image: any) => image.type === 'TAIL_PACKAGE_THUMBNAIL_PRODUCT',
     )
-    const images = response.images
-      .filter((image: any) => excludeTypes.indexOf(image.type) === -1)
+    const images = response?.images?.filter((image: any) => excludeTypes.indexOf(image.type) === -1)
       .map((image: any) => ({
         large: base + '/840/473/resize/' + image.path,
         small: base + '/128/96/resize/' + image.path,
       }))
+
+    const videoSanitize = DOMPurify.sanitize(video?.value, {ALLOWED_TAGS: ['iframe']});
+    const shortDescriptionSanitize = DOMPurify.sanitize(response?.shortDescription);
+    const descriptionSanitize = DOMPurify.sanitize(response?.description);
 
     return (
       <div className="game-entry">
@@ -44,13 +50,14 @@ export const Route = createLazyFileRoute('/game/$id')({
         </div>
         <div className="game-entry__inner">
           <div className="game-entry__col">
-            <Carousel images={images} />
-            {video && <div className="video-target" dangerouslySetInnerHTML={{__html: video.value}}></div>}
+            {images && <Carousel images={images} />}
+            
+            {video && <div className="video-target" dangerouslySetInnerHTML={{__html: videoSanitize}}></div>}
             <div
               className="game-entry__desc"
-              dangerouslySetInnerHTML={{ __html: response.description }}
+              dangerouslySetInnerHTML={{ __html: descriptionSanitize }}
             />
-            <GameInfo attributes={response.attributes} />
+            {response?.attributes && <GameInfo attributes={response?.attributes} />}
           </div>
           <div className="game-entry__col game-entry__col--right">
             {coverImage && (
@@ -59,10 +66,10 @@ export const Route = createLazyFileRoute('/game/$id')({
               </div>
             )}
             <p
-              dangerouslySetInnerHTML={{ __html: response.shortDescription }}
+              dangerouslySetInnerHTML={{ __html: shortDescriptionSanitize }}
             />
 
-            {response.productESRB.matureContent && (
+            {response?.productESRB?.matureContent && (
               <div className="game-info__mature-hld">
                 <div className="game-info__mature">
                   Adults Only<br /> 

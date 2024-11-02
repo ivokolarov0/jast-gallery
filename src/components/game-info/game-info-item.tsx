@@ -10,9 +10,11 @@ const GameInfoItem = ({ attr }: any) => {
     <div className="details-wrapper">
       <h5>{title}</h5>
       <div className="details">
-        {Array.isArray(value) ? value.map((val: any, index) => (
-            <div key={index} dangerouslySetInnerHTML={{__html: attr.configuration.choices[val].en_US}} />
-        )) : <div dangerouslySetInnerHTML={{__html: value}} />}
+        {Array.isArray(value) 
+          ? value.map((val: any, index) => (
+            <div key={index}>{attr.configuration.choices[val].en_US}</div>
+          )) 
+          : <div className="details__entry" dangerouslySetInnerHTML={{__html: value}} />}
       </div>
     </div>
   )
