@@ -1,0 +1,53 @@
+.game-entry {
+  hr {
+    margin-bottom: 20px;
+  }
+}
+
+.game-entry__header {
+  margin-bottom: 20px;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.game-entry__inner {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 20px;
+}
+
+.game-entry__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-entry__col {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.game-entry__col--right {
+  padding: 20px;
+  background: linear-gradient(180deg,#223f5a 0,#17314a);
+  align-self: flex-start;
+}
+
+.game-entry__cover {
+  margin-bottom: 20px;
+}
+
+.game-entry__desc {
+  ul {
+    margin: 0 0 20px 20px;
+    list-style: outside;
+  }
+
+  ul li {
+    margin-bottom: 10px;
+  }
+}

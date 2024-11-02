@@ -1,0 +1,35 @@
+.btn {
+  display: inline-block;
+  border: 0;
+  border-radius: 5px;;
+  color: #fff;
+  background: var(--c-blue);
+  padding: 17px 46px 15px;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.08);
+  cursor: pointer;
+  appearance: none;
+  font: 500 14px "Poppins";
+  transition: 
+    border-color .3s ease,
+    background-color .3s ease,
+    box-shadow .3s ease,
+    color .3s ease;
+  text-decoration: none;
+  text-align: center;
+
+  &.btn--green {
+    background: green;
+  }
+
+  &.btn--red {
+    background: red;
+  }
+
+  &.full {
+    width: 100%;
+  }
+
+  &:hover {
+    background: var(--c-blue-dark);
+  }
+}

@@ -1,0 +1,10 @@
+.video-target {
+  iframe {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    max-width: 900px;
+    margin: 20px auto;
+  }
+}

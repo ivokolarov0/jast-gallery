@@ -1,0 +1,50 @@
+@import url('./general/reset.css');
+@import url('./general/variables.css');
+@import url('./general/fonts.css');
+
+@import url('./components/btn.css');
+@import url('./components/container.css');
+@import url('./components/carousel.css');
+@import url('./components/login-form.css');
+@import url('./components/form-field.css');
+@import url('./components/games-list.css');
+@import url('./components/game-box.css');
+@import url('./components/pagination.css');
+@import url('./components/game-entry.css');
+@import url('./components/back-btn.css');
+@import url('./components/game-info.css');
+@import url('./components/details.css');
+@import url('./components/video-target.css');
+@import url('./components/search-form.css');
+
+body {
+  background-color: var(--c-teal);
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 1.875rem;
+}
+
+h4 {
+  font-size: 1.625rem;
+}
+
+h5 {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+}
+
+p {
+  margin-bottom: 20px;
+  font-size: 1rem;
+  line-height: 1.3;
+}

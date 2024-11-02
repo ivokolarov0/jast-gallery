@@ -1,0 +1,41 @@
+.game-box {
+
+}
+
+.game-box__image {
+  aspect-ratio: 300/450;
+}
+
+.game-box__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-box__details {
+  padding: 10px 5px;
+  color: #fff;
+
+  h5 {
+    margin-bottom: 5px;
+  }
+}
+
+.game-box__tags {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+
+  .tag {
+    display: inline-block;
+    padding: 2px 5px;
+    color: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+
+    &.tag--finished {
+      background-color: green;
+    }
+  }
+}

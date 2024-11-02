@@ -1,0 +1,24 @@
+.details-wrapper {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-image: linear-gradient(180deg,#223f5a,#17314a);
+  border-radius: 5px;
+
+  h5,
+  p {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .details {
+    display: flex;
+    gap: 5px;
+    white-space: pre-wrap;
+  }
+
+  .details__entry {
+    line-height: 1.4;
+  }
+}
