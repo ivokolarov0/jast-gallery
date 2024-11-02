@@ -1,0 +1,13 @@
+body {
+  background-color: #fff;
+}
+
+.form-field {
+  label {
+    display: block;
+  }
+
+  input {
+    padding: 5px 10px;
+  }
+}
