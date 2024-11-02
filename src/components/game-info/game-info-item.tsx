@@ -1,5 +1,3 @@
-import { createPortal } from 'react-dom';
-
 const GameInfoItem = ({ attr }: any) => {
   const value = attr.value;
   const title = attr.code.replace(/_/g, ' ');

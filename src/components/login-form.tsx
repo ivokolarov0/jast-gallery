@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { Store } from '@tauri-apps/plugin-store';
 
 import { login } from '../requests';
-import { useEffect } from 'react';
 
 type ValuesType = {
   email: string,
