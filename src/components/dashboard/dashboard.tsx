@@ -11,7 +11,7 @@ const Dasboard = ({ items, pages }: DashboardProps) => {
     <>
       <ul className="games-list">
         {items.map((item) => (
-          <li key={item['@id']}>
+          <li key={item.variant.gameId}>
             <DashboardItem item={item.variant} />
           </li>
         ))}

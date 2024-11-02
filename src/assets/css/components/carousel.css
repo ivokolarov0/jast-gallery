@@ -1,0 +1,36 @@
+.carousel-container {
+  margin-bottom: 20px;
+  background: linear-gradient(180deg,#223f5a 0,#17314a);
+
+  .carousel {
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+  }
+
+  button {
+    background: none;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+.carousel-thumbnails {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap:15px;
+  padding: 20px;
+
+  .carousel-thumbnail {
+    cursor: pointer;
+
+    &.is-active {
+      padding: 5px;
+      background: var(--c-active);
+    }
+  }
+
+  img {
+    display: block;
+  }
+}

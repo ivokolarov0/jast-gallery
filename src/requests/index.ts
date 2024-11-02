@@ -1,5 +1,5 @@
 import { fetch } from '@tauri-apps/plugin-http';
-import { Store } from '@tauri-apps/plugin-store';
+import { getLocalToken } from '../utils'
 
 export const base = import.meta.env.VITE_JAST_API;
 
@@ -8,7 +8,6 @@ type LoginValuesType = {
   password: string,
   remember_me: number
 }
-
 
 const request = async (url: string, options: any) => {
   let response = null;
@@ -31,7 +30,7 @@ export const login = (body: LoginValuesType) => request('/shop/authentication-to
   body: JSON.stringify(body)
 })
 
-export const getPaginatedGames = async (page = 1, search = '') => {
+export const getPaginatedGames = async (page = "1", search = '') => {
   const searchParams = new URLSearchParams({
     localeCode: "en_US",
     phrase: String(search),
@@ -39,15 +38,64 @@ export const getPaginatedGames = async (page = 1, search = '') => {
     itemsPerPage: "20",
     sort: "product_name_asc"
   }).toString();
-  const store = new Store('store.bin');
-  const account = await store.get<{ token?: string }>('account');
+  const token = await getLocalToken();
 
-  if (account?.token) {
+  if (token) {
     return request(`/shop/account/user-games-dev?${searchParams}`, {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${account?.token}`
+        'Authorization': `Bearer ${token}`
       }
     })
   }
 }
+
+export const getGame = async (id: string) => {
+  const token = await getLocalToken();
+
+  if (token) {
+    return request(`/shop/products/${id}`, {
+      method: "GET",
+      headers: {
+        'content-type': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    })
+  }
+}
+
+export const getTranslations = async (id: string) => {
+  const token = await getLocalToken();
+
+  if (token) {
+    return request(`/shop/account/game-translations/${id}`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+  }
+}
+
+export const getDownloadLinks = async (payload: {
+  gameId: number,
+  gameLinkId: number,
+}) => {
+  const token = await getLocalToken();
+
+  if (token) {
+    return request(`/shop/account/user-games/generate-link`, {
+      method: "POST",
+      headers: {
+        'content-type': "application/json",
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        ...payload,
+        type:	"default",
+        downloaded: false
+      })
+    })
+  }
+}
+
