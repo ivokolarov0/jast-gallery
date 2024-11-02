@@ -34,3 +34,14 @@
 .game-entry__cover {
   margin-bottom: 20px;
 }
+
+.game-entry__desc {
+  ul {
+    margin: 0 0 20px 20px;
+    list-style: outside;
+  }
+
+  ul li {
+    margin-bottom: 10px;
+  }
+}

@@ -5,25 +5,22 @@ import { getGame, base } from '../../requests'
 import Carousel from '../../components/carousel'
 import BackBtn from '../../components/back-btn'
 import Download from '../../components/download/download'
-
-const excludeTypes = [
-  'PRODUCT_MINIATURE',
-  'TAIL_PACKAGE_THUMBNAIL_PRODUCT',
-  'TALL_SEARCH_CATALOG',
-]
-
-export const jastMedia = import.meta.env.VITE_JAST_MEDIA
+import GameInfo from '../../components/game-info/game-info'
+import { excludeTypes, jastMedia } from '../../utils'
 
 export const Route = createLazyFileRoute('/game/$id')({
   component: () => {
     const { id } = Route.useParams()
-    const { page }: {page: string} = Route.useSearch();
+    const { page, search }: {page: string, search: string} = Route.useSearch();
 
     const { data } = useQuery({
       queryKey: ['game', id],
       queryFn: ({ queryKey }) => getGame(queryKey[1]),
     })
     const response = data?.[0]
+    const video = response?.attributes.find(
+      (attr: any) => attr.code === 'video_html',
+    );
 
     if (!response) {
       return <div>Loading...</div>
@@ -48,10 +45,12 @@ export const Route = createLazyFileRoute('/game/$id')({
         <div className="game-entry__inner">
           <div className="game-entry__col">
             <Carousel images={images} />
+            {video && <div className="video-target" dangerouslySetInnerHTML={{__html: video.value}}></div>}
             <div
               className="game-entry__desc"
               dangerouslySetInnerHTML={{ __html: response.description }}
             />
+            <GameInfo attributes={response.attributes} />
           </div>
           <div className="game-entry__col game-entry__col--right">
             {coverImage && (
@@ -74,7 +73,7 @@ export const Route = createLazyFileRoute('/game/$id')({
 
             <hr />
 
-            <Download id={response.code} page={page} />
+            <Download id={response.code} page={page} search={search} />
           </div>
         </div>
       </div>

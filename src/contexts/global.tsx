@@ -7,9 +7,15 @@ interface GlobalProviderProps {
 };
 
 export const GlobalProvider = ({ children }: GlobalProviderProps) => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState('1');
+  const [search, setSearch] = useState('');
   return (
-    <Context.Provider value={{page, setPage}}>
+    <Context.Provider value={{
+      page,
+      setPage,
+      search,
+      setSearch
+    }}>
       {children}
     </Context.Provider>
   )

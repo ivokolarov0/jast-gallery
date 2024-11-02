@@ -3,14 +3,15 @@ import { base } from '../../requests'
 import { useGlobalProvider } from '../../contexts/global'
 
 const DashboardItem = ({item}: any) => {
-  const {page} = useGlobalProvider() as {
-    page: number
+  const {page, search} = useGlobalProvider() as {
+    page: string,
+    search: string
   }
   const imagePath = base + '/300/450/resize/' + item.productImage;
 
   return (
     <div className="game-box">
-      <Link to={`/game/${item.productCode}?page=${page}`} className="game-box__link">
+      <Link to={`/game/${item.productCode}?page=${page}&search=${search}`} className="game-box__link">
         <div className="game-box__image">
           <img src={imagePath} alt="" />
         </div>

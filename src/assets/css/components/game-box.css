@@ -16,6 +16,10 @@
 .game-box__details {
   padding: 10px 5px;
   color: #fff;
+
+  h5 {
+    margin-bottom: 5px;
+  }
 }
 
 .game-box__tags {

@@ -3,10 +3,10 @@ import { getPaginatedGames, getTranslations } from "../../requests"
 import { useState } from "react"
 import DownloadBtn from "./download-btn";
 
-const Download = ({ id, page }: {id: string, page: string}) => {
+const Download = ({ id, page, search }: {id: string, page: string, search: string}) => {
   const [enabled, setEnabled] = useState(false);
   const { data: games, isLoading: pageLoading } = useQuery({
-    queryKey: ['games', page, ''],
+    queryKey: ['games', page, search],
     queryFn: ({ queryKey }) =>
       getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
     enabled: !!enabled

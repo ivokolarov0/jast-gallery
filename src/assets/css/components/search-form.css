@@ -1,0 +1,15 @@
+.search-form {
+  margin-bottom: 30px;
+  input {
+    padding: 20px;
+    background: var(--c-search);
+    border: 0;
+    width: 100%;
+    color: #fff;
+    font-size: 18px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

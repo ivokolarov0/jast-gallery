@@ -7,10 +7,10 @@ import { useGlobalProvider } from '../contexts/global';
 import Pagination from './pagination';
 
 const Account = () => {
-  const { page }: { page: number} = useGlobalProvider() as { page: number, setPage: (page: number) => void };
+  const { page, search } = useGlobalProvider() as { page: number, search: string };
   const { data, isLoading } = useQuery({
-    queryKey: ['games', page, ''],
-    queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1] as number, queryKey[2] as string),
+    queryKey: ['games', page, search],
+    queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
   })
 
   return (
