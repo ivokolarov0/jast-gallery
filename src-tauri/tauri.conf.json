@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2.0.0-rc",
-  "productName": "jast-gallery",
+  "productName": "JastUSGallery",
   "version": "0.1.0",
   "identifier": "com.jast-gallery.app",
   "build": {
@@ -12,9 +12,9 @@
   "app": {
     "windows": [
       {
-        "title": "jast-gallery",
-        "width": 1024,
-        "height": 800
+        "title": "Jast US Gallery",
+        "width": 1400,
+        "height": 900
       }
     ],
     "security": {

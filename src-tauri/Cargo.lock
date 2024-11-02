@@ -4454,8 +4454,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-stronghold"
 version = "2.0.0-rc.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f576f3e2c1e5435ecb884b423fe5cf3f8b172603552ffbcda6f432e8086374da"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v2#221f50f53bd7a87dbd404e4cb1aaf502a5047785"
 dependencies = [
  "hex",
  "iota-crypto",
