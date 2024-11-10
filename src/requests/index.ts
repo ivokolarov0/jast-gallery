@@ -41,26 +41,30 @@ export const getPaginatedGames = async (page = "1", search = '') => {
   const token = await getLocalToken();
 
   if (token) {
-    return request(`/shop/account/user-games-dev?${searchParams}`, {
+    const response = await request(`/shop/account/user-games-dev?${searchParams}`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`
       }
-    })
+    });
+    return response;
   }
+
+  return [null, null];
 }
 
 export const getGame = async (id: string) => {
   const token = await getLocalToken();
 
   if (token) {
-    return request(`/shop/products/${id}`, {
+    const response = await request(`/shop/products/${id}`, {
       method: "GET",
       headers: {
         'content-type': "application/json",
         'Authorization': `Bearer ${token}`
       }
-    })
+    });
+    return response;
   }
 }
 

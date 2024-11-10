@@ -14,21 +14,26 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
       page,
       setPage,
       search,
-      setSearch
+      setSearch,
     }}>
       {children}
     </Context.Provider>
   )
 }
 
-export const useGlobalProvider = () => {
+interface GlobalContext {
+  page: number | string;
+  setPage: React.Dispatch<React.SetStateAction<number | string>>;
+  search: number | string;
+  setSearch: React.Dispatch<React.SetStateAction<number | string>>;
+}
+
+export const useGlobalProvider = (): GlobalContext => {
   const context = useContext(Context);
 
   if (!context) {
-
     throw new Error('useGlobalProvider must be used within a GlobalProvider');
-
   }
 
-  return context;
+  return context as GlobalContext;
 }

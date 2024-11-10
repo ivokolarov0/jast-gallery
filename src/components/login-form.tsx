@@ -1,7 +1,9 @@
 import { useForm } from 'react-hook-form'
 import { Store } from '@tauri-apps/plugin-store';
+import { QueryObserverResult } from '@tanstack/react-query';
 
 import { login } from '../requests';
+import { useState } from 'react';
 
 type ValuesType = {
   email: string,
@@ -9,8 +11,13 @@ type ValuesType = {
   remember_me: number
 }
 
-const LoginForm = () => {
+type LoginFormProps = {
+  refetch: () => Promise<QueryObserverResult<any[] | undefined, Error>>
+}
+
+const LoginForm = ({ refetch }: LoginFormProps) => {
   const store = new Store('store.bin');
+  const [isLoading, setIsLoading] = useState(false);
   const { handleSubmit, register } = useForm({
     defaultValues: {
       remember_me: 1,
@@ -20,7 +27,7 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (values: ValuesType) => {
-    
+    setIsLoading(true);
     const [data, error] = await login(values);
 
     if(error) {
@@ -34,6 +41,13 @@ const LoginForm = () => {
     if(data.token) {
       await store.set('account', data);
     }
+
+    await refetch();
+    setIsLoading(false);
+  }
+
+  if(isLoading) {
+    return <div>Loading...</div>
   }
 
   return (

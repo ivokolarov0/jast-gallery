@@ -2,7 +2,7 @@ import React from 'react'
 import { useGlobalProvider } from '../contexts/global';
 
 const Pagination = ({ pages }: { pages: number}) => {
-  const { page, setPage } = useGlobalProvider() as { page: number, setPage: (page: number) => void };
+  const { page, setPage } = useGlobalProvider();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, i: number) => { 
     e.preventDefault(); 
