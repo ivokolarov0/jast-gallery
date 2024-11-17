@@ -24,9 +24,9 @@ export const Route = createLazyFileRoute('/game/$id')({
       queryFn: () => getPaginatedGames('1', response?.name),
       enabled: !!response
     })
-    const findCurrentGame = searchedGames?.[0]?.products?.find((item: any) => item.variant.productCode === response.code);
+    const findCurrentGame = searchedGames?.[0]?.products?.find((item: any) => item.variant.productCode === response?.code);
 
-    if (!response) {
+    if (!response || !findCurrentGame || isRefetching) {
       return <div>Loading...</div>
     }
     
