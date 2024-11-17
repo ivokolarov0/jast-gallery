@@ -2,10 +2,11 @@ import { useGlobalProvider } from '../contexts/global';
 import { debounce } from '../utils';
 
 const SearchForm = () => {
-  const { setSearch, search } = useGlobalProvider();
+  const { setSearch, search, setPage } = useGlobalProvider();
 
   const handleChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setPage(1);
   }, 500);
 
   return (
