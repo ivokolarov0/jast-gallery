@@ -18,6 +18,12 @@
   gap: 20px;
 }
 
+.game-entry__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .game-entry__col {
   img {
     max-width: 100%;

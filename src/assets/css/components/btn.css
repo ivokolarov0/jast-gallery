@@ -17,6 +17,14 @@
   text-decoration: none;
   text-align: center;
 
+  &.btn--green {
+    background: green;
+  }
+
+  &.btn--red {
+    background: red;
+  }
+
   &.full {
     width: 100%;
   }

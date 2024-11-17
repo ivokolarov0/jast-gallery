@@ -2,25 +2,30 @@ import { useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import DOMPurify from 'dompurify';
 
-import { getGame, base } from '../../requests'
+import { getGame, base, getPaginatedGames } from '../../requests'
 import Carousel from '../../components/carousel'
 import BackBtn from '../../components/back-btn'
 import Download from '../../components/download/download'
 import GameInfo from '../../components/game-info/game-info'
 import { excludeTypes, jastMedia } from '../../utils'
+import Played from '../../components/played';
 
 export const Route = createLazyFileRoute('/game/$id')({
   component: () => {
     const { id } = Route.useParams()
     const { page, search }: {page: string, search: string} = Route.useSearch();
-
     const { data } = useQuery({
       queryKey: ['game', id],
       queryFn: ({ queryKey }) => getGame(queryKey[1]),
+    });
+    const response = data?.[0];
+    const { data: searchedGames, isRefetching } = useQuery({
+      queryKey: ['games', page, search],
+      queryFn: () => getPaginatedGames('1', response?.name),
+      enabled: !!response
     })
+    const findCurrentGame = searchedGames?.[0]?.products?.find((item: any) => item.variant.productCode === response.code);
 
-    const response = data?.[0]
-    
     if (!response) {
       return <div>Loading...</div>
     }
@@ -44,7 +49,10 @@ export const Route = createLazyFileRoute('/game/$id')({
 
     return (
       <div className="game-entry">
-        <BackBtn page={page} />
+        <div className="game-entry__top">
+          <BackBtn page={page} />
+          {findCurrentGame && !isRefetching && <Played data={findCurrentGame.variant} page={page} search={search} />}
+        </div>
         <div className="game-entry__header">
           <h2>{response.name}</h2>
         </div>
