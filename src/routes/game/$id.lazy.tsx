@@ -26,7 +26,7 @@ export const Route = createLazyFileRoute('/game/$id')({
     })
     const findCurrentGame = searchedGames?.[0]?.products?.find((item: any) => item.variant.productCode === response?.code);
 
-    if (!response || !findCurrentGame || isRefetching) {
+    if (!response) {
       return <div>Loading...</div>
     }
     
@@ -50,8 +50,13 @@ export const Route = createLazyFileRoute('/game/$id')({
     return (
       <div className="game-entry">
         <div className="game-entry__top">
-          <BackBtn page={page} />
-          {findCurrentGame && !isRefetching && <Played data={findCurrentGame.variant} page={page} search={search} />}
+          
+          {findCurrentGame && !isRefetching && (
+            <>
+              <BackBtn page={page} />
+              <Played data={findCurrentGame.variant} page={page} search={search} />
+            </>
+          )}
         </div>
         <div className="game-entry__header">
           <h2>{response.name}</h2>
