@@ -1,14 +1,15 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import DOMPurify from 'dompurify';
 
+import { excludeTypes, jastMedia } from '../../utils'
 import { getGame, base, getPaginatedGames } from '../../requests'
 import Carousel from '../../components/carousel'
 import BackBtn from '../../components/back-btn'
 import Download from '../../components/download/download'
 import GameInfo from '../../components/game-info/game-info'
-import { excludeTypes, jastMedia } from '../../utils'
 import Played from '../../components/played';
+import Loading from '../../components/loading';
 
 export const Route = createLazyFileRoute('/game/$id')({
   component: () => {
@@ -16,18 +17,21 @@ export const Route = createLazyFileRoute('/game/$id')({
     const { page, search }: {page: string, search: string} = Route.useSearch();
     const { data } = useQuery({
       queryKey: ['game', id],
+      placeholderData: keepPreviousData,
       queryFn: ({ queryKey }) => getGame(queryKey[1]),
+      
     });
     const response = data?.[0];
     const { data: searchedGames, isRefetching } = useQuery({
-      queryKey: ['games', page, search],
+      queryKey: ['searched-games', page, search],
       queryFn: () => getPaginatedGames('1', response?.name),
+      placeholderData: keepPreviousData,
       enabled: !!response
     })
     const findCurrentGame = searchedGames?.[0]?.products?.find((item: any) => item.variant.productCode === response?.code);
 
     if (!response) {
-      return <div>Loading...</div>
+      return <Loading />
     }
     
     const video = response?.attributes?.find(
@@ -51,12 +55,12 @@ export const Route = createLazyFileRoute('/game/$id')({
       <div className="game-entry">
         <div className="game-entry__top">
           
-          {findCurrentGame && !isRefetching && (
+          {findCurrentGame && !isRefetching ? (
             <>
               <BackBtn page={page} />
               <Played data={findCurrentGame.variant} page={page} search={search} />
             </>
-          )}
+          ) : <Loading />}
         </div>
         <div className="game-entry__header">
           <h2>{response.name}</h2>

@@ -6,6 +6,7 @@ import { getPaginatedGames } from '../requests'
 import LoginForm from '../components/login-form'
 import Dashboard from '../components/dashboard/dashboard'
 import SearchForm from '../components/search-form';
+import Loading from '../components/loading'
 
 export const Route = createLazyFileRoute('/')({
   component: () => {
@@ -15,7 +16,7 @@ export const Route = createLazyFileRoute('/')({
       placeholderData: keepPreviousData,
       queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
     });
-    const loading = isLoading || isFetching;
+    const loading = isLoading;
 
     if(data?.[0]?.code === 401) {
       return (
@@ -26,9 +27,9 @@ export const Route = createLazyFileRoute('/')({
     return (
       <div>
         {data?.[0] && <SearchForm />}
-        {loading && <div>Loading...</div>}
+        {loading && <Loading />}
         {!loading && !data?.[0] && <LoginForm refetch={refetch} />}
-        {!loading && data?.[0]?.['@id'] && <Dashboard items={data[0].products} pages={data?.[0].pages} />}
+        {data?.[0]?.['@id'] && <Dashboard items={data[0].products} pages={data?.[0].pages} />}
       </div>
     )
   },

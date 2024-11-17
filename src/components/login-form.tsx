@@ -4,6 +4,7 @@ import { QueryObserverResult } from '@tanstack/react-query';
 
 import { login } from '../requests';
 import { useState } from 'react';
+import Loading from './loading';
 
 type ValuesType = {
   email: string,
@@ -47,7 +48,7 @@ const LoginForm = ({ refetch }: LoginFormProps) => {
   }
 
   if(isLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (

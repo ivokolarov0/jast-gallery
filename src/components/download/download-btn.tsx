@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { getDownloadLinks } from '../../requests'
+import Loading from '../loading'
 
 type ItemType = {
   "@type": string,
@@ -31,7 +32,7 @@ const DownloadBtn = ({ item }: DownloadBtnProps) => {
   }
 
   if(loading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (

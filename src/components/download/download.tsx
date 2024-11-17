@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query"
 import { getPaginatedGames, getTranslations } from "../../requests"
 import { useState } from "react"
 import DownloadBtn from "./download-btn";
+import Loading from "../loading";
 
 const Download = ({ id, page, search }: {id: string, page: string, search: string}) => {
   const [enabled, setEnabled] = useState(false);
   const { data: games, isLoading: pageLoading } = useQuery({
-    queryKey: ['games', page, search],
+    queryKey: ['searched-games', page, search],
     queryFn: ({ queryKey }) =>
       getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
     enabled: !!enabled
@@ -27,7 +28,7 @@ const Download = ({ id, page, search }: {id: string, page: string, search: strin
   }
 
   if(isLoading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   if(enabled && gameIdItems) {

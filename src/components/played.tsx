@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { markAsPlayed, removeAsPlayed } from '../requests';
+import Loading from './loading';
 
 type Tags = {
   '@id': string,
@@ -14,7 +15,7 @@ const Played = ({ data, page, search }: any) => {
 
   const invalidateQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: ['games', page, search]
+      queryKey: ['searched-games', page, search]
     })
   }
 
@@ -45,7 +46,7 @@ const Played = ({ data, page, search }: any) => {
   };
 
   if(removeMutation.isPending || addMutation.isPending) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   if(isPlayed) {
