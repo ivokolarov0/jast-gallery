@@ -3,7 +3,9 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 import DOMPurify from 'dompurify';
 
 import { excludeTypes, jastMedia } from '@utils/index'
-import { getGame, base, getPaginatedGames } from '@requests/index'
+import getPaginatedGames from '@requests/get-paginated-games';
+import getGame from '@requests/get-game';
+import { base } from '@requests/index'
 import Carousel from '@components/carousel'
 import BackBtn from '@components/back-btn'
 import Download from '@components/download/download'

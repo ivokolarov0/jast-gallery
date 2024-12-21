@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import Logo from '@assets/images/logo.svg'
+import Logout from '@components/logout'
 
 const Header = () => {
   return (
@@ -13,6 +14,9 @@ const Header = () => {
             <ul>
               <li>
                 <Link to="/account">Account</Link>
+              </li>
+              <li>
+                <Logout />
               </li>
             </ul>
           </nav>

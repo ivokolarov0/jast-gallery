@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import { getPaginatedGames, getTranslations } from "@requests/index"
+import getPaginatedGames from '@requests/get-paginated-games';
+import getTranslations from "@requests/get-translations"
 import Loading from '@components/loading';
 import DownloadBtn from "./download-btn";
 

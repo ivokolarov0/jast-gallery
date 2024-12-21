@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { Store } from '@tauri-apps/plugin-store';
 import { QueryObserverResult } from '@tanstack/react-query';
 
-import { login } from '@requests/index';
+import login from '@requests/login';
 import Loading from '@components/loading';
 
 type ValuesType = {
@@ -35,11 +35,11 @@ const LoginForm = ({ refetch }: LoginFormProps) => {
       alert('There was some kind of error')
     }
 
-    if (data.code === 401) {
-      alert(data.message || 'There was some kind of error');
+    if (data?.code === 401) {
+      alert(data?.message || 'There was some kind of error');
     }
 
-    if(data.token) {
+    if(data?.token) {
       await store.set('account', data);
     }
 

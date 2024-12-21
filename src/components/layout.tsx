@@ -9,7 +9,11 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="wrapper">
       <Header />
-      {children}
+      <main className="main">
+        <div className="shell">
+          {children}
+        </div>
+      </main>
     </div>
   );
 };

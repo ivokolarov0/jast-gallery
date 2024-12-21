@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { markAsPlayed, removeAsPlayed } from '@src/requests';
+import { markAsPlayed, removeAsPlayed } from '@requests/set-played';
 import Loading from '@components/loading';
 
 type Tags = {
@@ -20,9 +20,7 @@ const Played = ({ data, page, search }: any) => {
   }
 
   const removeMutation = useMutation({
-    mutationFn: ({ gameId, tagId }: { gameId: number; tagId: number }) => {
-      return removeAsPlayed(gameId, tagId);
-    },
+    mutationFn: ({ gameId, tagId }: { gameId: number; tagId: number }) => removeAsPlayed(gameId, tagId),
     onSuccess: invalidateQuery
   });
   const addMutation = useMutation({

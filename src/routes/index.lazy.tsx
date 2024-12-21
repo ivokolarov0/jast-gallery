@@ -5,9 +5,7 @@ export const Route = createLazyFileRoute('/')({
   component: () => {
 
     return (
-      <Layout>
-       <h2>Home</h2>
-      </Layout>
+      <h2>Home</h2>
     )
   },
 })

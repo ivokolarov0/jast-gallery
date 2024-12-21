@@ -2,7 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 
 import { useGlobalProvider } from '@contexts/global';
-import { getPaginatedGames } from '@requests/index';
+import getPaginatedGames from '@requests/get-paginated-games';
 import LoginForm from '@components/login-form';
 import Dashboard from '@components/dashboard/dashboard';
 import SearchForm from '@components/search-form';
@@ -26,12 +26,12 @@ export const Route = createLazyFileRoute('/account')({
     }
 
     return (
-      <Layout>
+      <>
         {data?.[0] && <SearchForm />}
         {loading && <Loading />}
         {!loading && !data?.[0] && <LoginForm refetch={refetch} />}
         {data?.[0]?.['@id'] && <Dashboard items={data[0].products} pages={data?.[0].pages} />}
-      </Layout>
+      </>
     )
   },
 })

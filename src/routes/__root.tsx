@@ -5,18 +5,19 @@ import {
 } from '@tanstack/react-query';
 
 import { GlobalProvider } from '@contexts/global';
+import Layout from '@components/layout';
 
 // Create a client
 const queryClient = new QueryClient()
 
 export const Route = createRootRoute({
   component: () => (
-    <div className="container">
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
         <GlobalProvider>
+        <Layout>
           <Outlet />
-        </GlobalProvider>
-      </QueryClientProvider>
-    </div>
+        </Layout>
+      </GlobalProvider>
+    </QueryClientProvider>
   ),
 })
