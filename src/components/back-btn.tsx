@@ -1,5 +1,5 @@
 import { useRouter } from '@tanstack/react-router'
-import { useGlobalProvider } from '../contexts/global';
+import { useGlobalProvider } from '@contexts/global';
 
 const BackBtn = ({ page }: {page: string}) => {
   const { setPage } = useGlobalProvider() as { setPage: (page: string) => void }

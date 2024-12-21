@@ -16,10 +16,16 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const AccountLazyImport = createFileRoute('/account')()
 const IndexLazyImport = createFileRoute('/')()
 const GameIdLazyImport = createFileRoute('/game/$id')()
 
 // Create/Update Routes
+
+const AccountLazyRoute = AccountLazyImport.update({
+  path: '/account',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/account.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -42,6 +48,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/game/$id': {
       id: '/game/$id'
       path: '/game/$id'
@@ -56,36 +69,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/account': typeof AccountLazyRoute
   '/game/$id': typeof GameIdLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/account': typeof AccountLazyRoute
   '/game/$id': typeof GameIdLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/account': typeof AccountLazyRoute
   '/game/$id': typeof GameIdLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/game/$id'
+  fullPaths: '/' | '/account' | '/game/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/game/$id'
-  id: '__root__' | '/' | '/game/$id'
+  to: '/' | '/account' | '/game/$id'
+  id: '__root__' | '/' | '/account' | '/game/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  AccountLazyRoute: typeof AccountLazyRoute
   GameIdLazyRoute: typeof GameIdLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  AccountLazyRoute: AccountLazyRoute,
   GameIdLazyRoute: GameIdLazyRoute,
 }
 
@@ -102,11 +120,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/account",
         "/game/$id"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/account": {
+      "filePath": "account.lazy.tsx"
     },
     "/game/$id": {
       "filePath": "game/$id.lazy.tsx"

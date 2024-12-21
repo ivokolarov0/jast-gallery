@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { markAsPlayed, removeAsPlayed } from '../requests';
-import Loading from './loading';
+import { markAsPlayed, removeAsPlayed } from '@src/requests';
+import Loading from '@components/loading';
 
 type Tags = {
   '@id': string,

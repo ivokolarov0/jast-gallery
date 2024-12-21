@@ -1,10 +1,10 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { Store } from '@tauri-apps/plugin-store';
 import { QueryObserverResult } from '@tanstack/react-query';
 
-import { login } from '../requests';
-import { useState } from 'react';
-import Loading from './loading';
+import { login } from '@requests/index';
+import Loading from '@components/loading';
 
 type ValuesType = {
   email: string,

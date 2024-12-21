@@ -1,5 +1,5 @@
-import { useGlobalProvider } from '../contexts/global';
-import { debounce } from '../utils';
+import { useGlobalProvider } from '@contexts/global';
+import { debounce } from '@utils/index';
 
 const SearchForm = () => {
   const { setSearch, search, setPage } = useGlobalProvider();

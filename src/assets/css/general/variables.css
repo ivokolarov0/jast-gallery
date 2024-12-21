@@ -5,4 +5,6 @@
   --c-blue-dark: #005aba;
   --c-active: #0083f3;
   --c-search: #3a5f81;
+
+  --transition: .3s;
 }

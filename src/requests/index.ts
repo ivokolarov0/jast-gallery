@@ -1,5 +1,5 @@
 import { fetch } from '@tauri-apps/plugin-http';
-import { getLocalToken } from '../utils'
+import { getLocalToken } from '@utils/index'
 
 export const base = import.meta.env.VITE_JAST_API;
 

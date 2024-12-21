@@ -1,4 +1,4 @@
-import Pagination from '../pagination';
+import Pagination from '@components/pagination';
 import DashboardItem from './dashboard-item';
 
 interface DashboardProps {

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { getDownloadLinks } from '../../requests'
-import Loading from '../loading'
+import { getDownloadLinks } from '@requests/index'
+import Loading from '@components/loading';
 
 type ItemType = {
   "@type": string,

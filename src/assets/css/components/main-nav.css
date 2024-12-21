@@ -1,0 +1,23 @@
+.main-nav {
+  ul {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+  }
+
+  a {
+    display: inline-flex;
+    padding: 11px 20px;
+    font-size: 1rem;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: var(--transition) background;
+    border-radius: 3px;
+
+    &.active,
+    &:hover {
+      background: var(--c-blue-dark);
+    }
+  }
+}

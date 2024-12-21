@@ -2,14 +2,14 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import DOMPurify from 'dompurify';
 
-import { excludeTypes, jastMedia } from '../../utils'
-import { getGame, base, getPaginatedGames } from '../../requests'
-import Carousel from '../../components/carousel'
-import BackBtn from '../../components/back-btn'
-import Download from '../../components/download/download'
-import GameInfo from '../../components/game-info/game-info'
-import Played from '../../components/played';
-import Loading from '../../components/loading';
+import { excludeTypes, jastMedia } from '@utils/index'
+import { getGame, base, getPaginatedGames } from '@requests/index'
+import Carousel from '@components/carousel'
+import BackBtn from '@components/back-btn'
+import Download from '@components/download/download'
+import GameInfo from '@components/game-info/game-info'
+import Played from '@components/played';
+import Loading from '@components/loading';
 
 export const Route = createLazyFileRoute('/game/$id')({
   component: () => {

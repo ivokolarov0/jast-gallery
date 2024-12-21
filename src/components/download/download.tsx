@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query"
-import { getPaginatedGames, getTranslations } from "../../requests"
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+
+import { getPaginatedGames, getTranslations } from "@requests/index"
+import Loading from '@components/loading';
 import DownloadBtn from "./download-btn";
-import Loading from "../loading";
 
 const Download = ({ id, page, search }: {id: string, page: string, search: string}) => {
   const [enabled, setEnabled] = useState(false);

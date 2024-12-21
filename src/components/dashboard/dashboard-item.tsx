@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import { base } from '../../requests'
-import { useGlobalProvider } from '../../contexts/global'
+import { base } from '@requests/index'
+import { useGlobalProvider } from '@contexts/global'
 
 const DashboardItem = ({item}: any) => {
   const {page, search} = useGlobalProvider() as {

@@ -4,7 +4,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 
-import { GlobalProvider } from '../contexts/global';
+import { GlobalProvider } from '@contexts/global';
 
 // Create a client
 const queryClient = new QueryClient()

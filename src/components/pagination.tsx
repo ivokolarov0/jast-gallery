@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGlobalProvider } from '../contexts/global';
+import { useGlobalProvider } from '@contexts/global';
 
 const Pagination = ({ pages }: { pages: number}) => {
   const { page, setPage } = useGlobalProvider();
