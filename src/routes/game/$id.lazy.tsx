@@ -36,7 +36,7 @@ export const Route = createLazyFileRoute('/game/$id')({
       return <Loading />
     }
     
-    const video = response?.attributes?.find(
+    const video: any = response?.attributes?.find(
       (attr: any) => attr.code === 'video_html',
     );
 

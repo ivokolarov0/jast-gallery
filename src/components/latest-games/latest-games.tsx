@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ContentLoader from 'react-content-loader'
 import { Swiper, SwiperRef } from "swiper/react";
-import { SwiperSlide, useSwiper } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
 import { jastMedia } from '@utils/index'

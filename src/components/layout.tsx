@@ -19,7 +19,7 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="wrapper">
-      <Header logged={data?.[0]?.id} />
+      <Header logged={!!data?.[0]?.id} />
       <main className="main">
         <div className="shell">
           {children}
