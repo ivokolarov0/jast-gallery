@@ -24,9 +24,7 @@ const Played = ({ data, page, search }: any) => {
     onSuccess: invalidateQuery
   });
   const addMutation = useMutation({
-    mutationFn: ({ gameId }: { gameId: number }) => {
-      return markAsPlayed(gameId);
-    },
+    mutationFn: ({ gameId }: { gameId: number }) => markAsPlayed(gameId),
     onSuccess: invalidateQuery
   });
 

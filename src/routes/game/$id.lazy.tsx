@@ -56,12 +56,10 @@ export const Route = createLazyFileRoute('/game/$id')({
     return (
       <div className="game-entry">
         <div className="game-entry__top">
+          <BackBtn page={page} />
           
           {findCurrentGame && !isRefetching ? (
-            <>
-              <BackBtn page={page} />
-              <Played data={findCurrentGame.variant} page={page} search={search} />
-            </>
+            <Played data={findCurrentGame.variant} page={page} search={search} />
           ) : <Loading />}
         </div>
         <div className="game-entry__header">

@@ -13,6 +13,9 @@
       "allow": [
         {
           "url": "https://app.jastusa.com/*"
+        },
+        {
+          "url": "https://jastusa.com/"
         }
       ]
     },

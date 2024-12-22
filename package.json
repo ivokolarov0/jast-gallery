@@ -22,7 +22,8 @@
     "dompurify": "^3.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.53.0"
+    "react-hook-form": "^7.53.0",
+    "swiper": "^11.1.15"
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.58.3",
