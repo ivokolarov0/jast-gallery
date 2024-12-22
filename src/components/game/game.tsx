@@ -1,3 +1,4 @@
+import ContentLoader from 'react-content-loader';
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import DOMPurify from 'dompurify';
 
@@ -6,10 +7,10 @@ import getGame from '@requests/get-game';
 import BackBtn from '@components/back-btn'
 import GameInfo from '@components/game-info/game-info'
 import Played from '@components/played';
-import Loading from '@components/loading';
 import GameVideo from './game-video';
 import GameImages from './game-images';
 import GameSidebar from './game-sidebar';
+import GameLoader from './game-loader';
 
 type GameProps = {
   page: string;
@@ -34,7 +35,7 @@ const Game = ({ page, search, id }:GameProps) => {
   const findCurrentGame = searchedGames?.[0]?.products?.find((item: Product) => item.variant.productCode === response?.code);
 
   if (!response) {
-    return <Loading />
+    return <GameLoader />
   }
 
   const descriptionSanitize = DOMPurify.sanitize(response?.description);
@@ -44,9 +45,7 @@ const Game = ({ page, search, id }:GameProps) => {
       <div className="game-entry__top">
         <BackBtn page={page} />
         
-        {findCurrentGame && !isRefetching ? (
-          <Played data={findCurrentGame.variant} page={page} search={search} />
-        ) : <Loading />}
+        {findCurrentGame && <Played data={findCurrentGame.variant} page={page} search={search} isRefetching={isRefetching} />}
       </div>
       <div className="game-entry__header">
         <h2>{response.name}</h2>
