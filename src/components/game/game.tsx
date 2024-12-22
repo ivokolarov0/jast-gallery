@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import DOMPurify from 'dompurify';
 
-import getPaginatedGames from '@requests/get-paginated-games';
+import getPaginatedGames, { Product } from '@requests/get-paginated-games';
 import getGame from '@requests/get-game';
 import BackBtn from '@components/back-btn'
 import GameInfo from '@components/game-info/game-info'
@@ -31,7 +31,7 @@ const Game = ({ page, search, id }:GameProps) => {
     placeholderData: keepPreviousData,
     enabled: !!response
   })
-  const findCurrentGame = searchedGames?.[0]?.products?.find((item: any) => item.variant.productCode === response?.code);
+  const findCurrentGame = searchedGames?.[0]?.products?.find((item: Product) => item.variant.productCode === response?.code);
 
   if (!response) {
     return <Loading />

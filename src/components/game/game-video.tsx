@@ -1,10 +1,10 @@
 import DOMPurify from 'dompurify';
 
-import { Product } from '@requests/get-game';
+import { Product, ProductAttributeValue } from '@requests/get-game';
 
 const GameVideo = ({ data }: { data: Product }) => {
   const video: any = data?.attributes?.find(
-    (attr: any) => attr.code === 'video_html',
+    (attr: ProductAttributeValue) => attr.code === 'video_html',
   );
   const videoSanitize = DOMPurify.sanitize(video?.value, {ALLOWED_TAGS: ['iframe']});
 

@@ -1,10 +1,15 @@
+import { ProductAttributeValue } from '@requests/get-game';
 import GameInfoItem from './game-info-item';
 
-const GameInfo = ({ attributes }: any) => {
-  const attrsUS = attributes.filter((attr: any) => attr.localeCode === "en_US");
+type PropType = {
+  attributes: ProductAttributeValue[]
+}
+
+const GameInfo = ({ attributes }: PropType) => {
+  const attrsUS = attributes.filter((attr: ProductAttributeValue) => attr.localeCode === "en_US");
   return (
     <div>
-      {attrsUS.map((attr: any) => <GameInfoItem key={attr.id} attr={attr} />)}
+      {attrsUS.map((attr: ProductAttributeValue) => <GameInfoItem key={attr.id} attr={attr} />)}
     </div>
   )
 }

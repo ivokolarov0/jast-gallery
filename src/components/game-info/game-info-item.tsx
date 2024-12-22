@@ -1,4 +1,10 @@
-const GameInfoItem = ({ attr }: any) => {
+import { ProductAttributeValue } from "@requests/get-game";
+
+type PropType = {
+  attr: ProductAttributeValue
+}
+
+const GameInfoItem = ({ attr }: PropType) => {
   const value = attr.value;
   const title = attr.code.replace(/_/g, ' ');
 
@@ -11,7 +17,7 @@ const GameInfoItem = ({ attr }: any) => {
       <h5>{title}</h5>
       <div className="details">
         {Array.isArray(value) 
-          ? value.map((val: any, index) => (
+          ? value.map((val: string, index) => (
             <div key={index}>{attr.configuration.choices[val].en_US}</div>
           )) 
           : <div className="details__entry" dangerouslySetInnerHTML={{__html: value}} />}
