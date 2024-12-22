@@ -16,7 +16,7 @@
 .game-info__esrb, .game-info__mature {
   width: calc(100% - 76px);
   color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 300;
   line-height: 1.56;
   text-align: center;

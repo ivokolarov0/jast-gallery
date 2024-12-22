@@ -1,0 +1,77 @@
+.latest-games {
+  max-width: 1492px;
+  margin: 0 auto;
+}
+
+.latest-games__items {
+  position: relative;
+  padding: 15px 30px;
+  background-color: #325575;
+
+  .latest-games__button {
+    background: none;
+    border: 0;
+    color: #fff;
+    margin: 0;
+    height: 100%;
+    top: 0;
+
+    &:after {
+      font-size: 1.8rem;
+    }
+
+    &.swiper-button-prev {
+      left: 0;
+    }
+
+    &.swiper-button-next {
+      right: 0;
+    }
+  }
+}
+
+.latest-games__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: 1.75rem;
+  }
+}
+
+.latest-games__item {
+  max-width: 824px;
+
+  a {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    background: var(--c-dark-alt);
+    color: #fff;
+    text-decoration: none;
+    transition: background .3s;
+
+    &:hover {
+      background: var(--c-dark);
+    }
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  h3 {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+.latest-cames__cover {
+  grid-row: 1 / 3;
+}

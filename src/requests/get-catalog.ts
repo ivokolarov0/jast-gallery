@@ -119,4 +119,5 @@ const getCatalog = async (catalog: CatalogType['catalog'], limit: string = '10')
   });
 }
 
+export type { Catalog, Product, Image }
 export default getCatalog;

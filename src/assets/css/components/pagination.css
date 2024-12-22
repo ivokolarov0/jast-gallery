@@ -13,13 +13,13 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    border: 2px solid #5d8ab4;
+    border: 2px solid var(--c-border);
     border-radius: 3px;
     transition: border-color .3s ease, background-color .3s ease, color .3s ease;
     color: #fff;
     text-decoration: none;
     color: var(--c-light-blue);
-    font-size: 18px;
+    font-size: 1.125rem;
 
     &:hover {
       border-color: var(--c-blue);

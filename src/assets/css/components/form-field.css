@@ -6,7 +6,7 @@
     display: block;
     margin-bottom: 5px;
     color: var(--c-light-blue);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 400;
     line-height: 1.5;
     letter-spacing: .05em;
@@ -18,7 +18,7 @@
     background: var(--c-light-blue);
     border: 0;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.5;
   }

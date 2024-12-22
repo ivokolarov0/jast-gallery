@@ -5,6 +5,9 @@
   --c-blue-dark: #005aba;
   --c-active: #0083f3;
   --c-search: #3a5f81;
+  --c-border: #5d8ab4;
+  --c-dark: #17314a;
+  --c-dark-alt: #223f5a;
 
   --transition: .3s;
 }

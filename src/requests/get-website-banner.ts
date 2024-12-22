@@ -1,8 +1,14 @@
 import { fetch } from '@tauri-apps/plugin-http';
 import { getLocalToken } from '@utils/index';
 
+type Slide = {
+  href: string | null,
+  img: string,
+  srcset: string
+}
+
 // Hacky solution to get the top banner from the website
-const getBannerSlides = async (): Promise<any> => {
+const getBannerSlides = async (): Promise<Slide[]> => {
   const token = await getLocalToken();
 
   let headers = new Headers({
@@ -27,7 +33,7 @@ const getBannerSlides = async (): Promise<any> => {
   const data = await response.text();
   const parser = new DOMParser();
   const doc = parser.parseFromString(data, 'text/html');
-  const items: { href: string | null; img: string; srcset: string }[] = [];
+  const items: Slide[] = [];
   const slides = doc.querySelectorAll('.site-banners a.swiper-slide');
 
   if(!slides.length) {

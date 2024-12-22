@@ -32,7 +32,7 @@
     padding: 2px 5px;
     color: 12px;
     border-radius: 10px;
-    font-size: 13px;
+    font-size: 0.8125rem;
 
     &.tag--finished {
       background-color: green;

@@ -32,4 +32,20 @@
   &:hover {
     background: var(--c-blue-dark);
   }
+
+  &.btn--small {
+    padding: 12px 28px 10px;
+  }
+
+  &.btn--empty {
+    background: transparent;
+    color: var(--c-blue);
+    border: 1px solid var(--c-border);
+    color: #fff;
+
+    &:hover {
+      background: var(--c-blue);
+      border-color: var(--c-blue);
+    }
+  }
 }
