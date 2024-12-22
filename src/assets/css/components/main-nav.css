@@ -1,8 +1,10 @@
 .main-nav {
+  flex: 1;
   ul {
     display: flex;
     gap: 10px;
     margin: 0;
+    align-items: center;
   }
 
   a {
@@ -19,5 +21,9 @@
     &:hover {
       background: var(--c-blue-dark);
     }
+  }
+
+  .side-link {
+    margin-left: auto;
   }
 }

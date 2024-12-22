@@ -9,12 +9,15 @@ interface GlobalProviderProps {
 export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [page, setPage] = useState('1');
   const [search, setSearch] = useState('');
+  const [isloggedIn, setIsLoggedIn] = useState(false);
   return (
     <Context.Provider value={{
       page,
       setPage,
       search,
       setSearch,
+      isloggedIn,
+      setIsLoggedIn,
     }}>
       {children}
     </Context.Provider>
@@ -22,6 +25,8 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
 }
 
 interface GlobalContext {
+  isLoggedIn: boolean;
+  setIslLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   page: number | string;
   setPage: React.Dispatch<React.SetStateAction<number | string>>;
   search: number | string;

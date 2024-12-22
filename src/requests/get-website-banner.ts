@@ -1,5 +1,4 @@
 import { fetch } from '@tauri-apps/plugin-http';
-import { getLocalToken } from '@utils/index';
 
 type Slide = {
   href: string | null,
@@ -9,21 +8,13 @@ type Slide = {
 
 // Hacky solution to get the top banner from the website
 const getBannerSlides = async (): Promise<Slide[]> => {
-  const token = await getLocalToken();
-
-  let headers = new Headers({
-    'content-type': "text/html",
-  });
-
-  if(token) {
-    headers.append('Authorization', `Bearer ${token}`);
-  }
-
   let response;
 
   try {
     response = await fetch('https://jastusa.com/', {
-      headers
+      headers: {
+        'content-type': "text/html",
+      }
     });
   } catch (error) {
     console.error(error);

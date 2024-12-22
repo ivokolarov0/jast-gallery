@@ -16,11 +16,17 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const LoginLazyImport = createFileRoute('/login')()
 const AccountLazyImport = createFileRoute('/account')()
 const IndexLazyImport = createFileRoute('/')()
 const GameIdLazyImport = createFileRoute('/game/$id')()
 
 // Create/Update Routes
+
+const LoginLazyRoute = LoginLazyImport.update({
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const AccountLazyRoute = AccountLazyImport.update({
   path: '/account',
@@ -55,6 +61,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountLazyImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/game/$id': {
       id: '/game/$id'
       path: '/game/$id'
@@ -70,12 +83,14 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/account': typeof AccountLazyRoute
+  '/login': typeof LoginLazyRoute
   '/game/$id': typeof GameIdLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/account': typeof AccountLazyRoute
+  '/login': typeof LoginLazyRoute
   '/game/$id': typeof GameIdLazyRoute
 }
 
@@ -83,27 +98,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/account': typeof AccountLazyRoute
+  '/login': typeof LoginLazyRoute
   '/game/$id': typeof GameIdLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/account' | '/game/$id'
+  fullPaths: '/' | '/account' | '/login' | '/game/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/account' | '/game/$id'
-  id: '__root__' | '/' | '/account' | '/game/$id'
+  to: '/' | '/account' | '/login' | '/game/$id'
+  id: '__root__' | '/' | '/account' | '/login' | '/game/$id'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AccountLazyRoute: typeof AccountLazyRoute
+  LoginLazyRoute: typeof LoginLazyRoute
   GameIdLazyRoute: typeof GameIdLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AccountLazyRoute: AccountLazyRoute,
+  LoginLazyRoute: LoginLazyRoute,
   GameIdLazyRoute: GameIdLazyRoute,
 }
 
@@ -121,6 +139,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/account",
+        "/login",
         "/game/$id"
       ]
     },
@@ -129,6 +148,9 @@ export const routeTree = rootRoute
     },
     "/account": {
       "filePath": "account.lazy.tsx"
+    },
+    "/login": {
+      "filePath": "login.lazy.tsx"
     },
     "/game/$id": {
       "filePath": "game/$id.lazy.tsx"

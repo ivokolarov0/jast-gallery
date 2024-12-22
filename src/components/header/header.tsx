@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import Logo from '@assets/images/logo.svg'
 import Logout from '@components/logout'
 
-const Header = () => {
+const Header = ({ logged }: {logged: boolean}) => {
   return (
     <div className="header">
       <div className="shell">
@@ -12,12 +12,21 @@ const Header = () => {
           </Link>
           <nav className="main-nav">
             <ul>
-              <li>
-                <Link to="/account">Account</Link>
-              </li>
-              <li>
-                <Logout />
-              </li>
+              {logged ? (
+                <>
+                  <li>
+                    <Link to="/account">My games</Link>
+                  </li>
+                  <li className="side-link">
+                    <Logout />
+                  </li> 
+                </>
+              )
+              : <li className="side-link">
+                  <Link to="/login">Login</Link>
+                </li>  
+              }
+              
             </ul>
           </nav>
         </div>
