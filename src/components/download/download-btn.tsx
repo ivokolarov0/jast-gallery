@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import getDownloadLinks from '@requests/get-download-links'
 import Loading from '@components/loading';
+import { GameLink } from '@requests/get-translations';
 
 type ItemType = {
   "@type": string,
@@ -13,7 +14,7 @@ type ItemType = {
 
 
 type DownloadBtnProps = {
-  item: ItemType
+  item: GameLink
 }
 
 const DownloadBtn = ({ item }: DownloadBtnProps) => {

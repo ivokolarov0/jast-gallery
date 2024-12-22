@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-import getPaginatedGames from '@requests/get-paginated-games';
-import getTranslations from "@requests/get-translations"
+import getPaginatedGames, { Product } from '@requests/get-paginated-games';
+import getTranslations, { GameLink } from "@requests/get-translations"
 import Loading from '@components/loading';
 import DownloadBtn from "./download-btn";
 
@@ -14,7 +14,7 @@ const Download = ({ id, page, search }: {id: string, page: string, search: strin
       getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
     enabled: !!enabled
   })
-  const requestID = games?.[0]?.products.find((game: any) => game.variant.productCode === id)?.variant?.game?.translations?.en_US?.id;
+  const requestID = games?.[0]?.products.find((game: Product) => game.variant.productCode === id)?.variant?.game?.translations?.en_US?.id;
 
   const { data: gameIDs, isLoading: translationLoading } = useQuery({
     queryKey: ['translations', requestID],
@@ -36,7 +36,7 @@ const Download = ({ id, page, search }: {id: string, page: string, search: strin
   if(enabled && gameIdItems) {
     return (
       <>
-        {gameIdItems.map((item: any) => <DownloadBtn key={item.gameLinkId} item={item} />)}
+        {gameIdItems.map((item: GameLink) => <DownloadBtn key={item.gameLinkId} item={item} />)}
       </>
     )
   }

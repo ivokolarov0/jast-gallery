@@ -33,10 +33,10 @@ const Content = ({ data }: Data) => (
     pagination={{ clickable: true }}
     modules={[Pagination]}
   >
-    {data?.map((slide: any, index: number) => (
+    {data?.map((slide: Slide, index: number) => (
       <SwiperSlide key={index}>
-        <a href={slide.href} target='_blank'>
-          <img src={slide.srcset || slide.href} loading="lazy" alt="Banner" />
+        <a href={slide.href || ''} target='_blank'>
+          <img src={slide.srcset} loading="lazy" alt="Banner" />
         </a>
       </SwiperSlide>
     ))}

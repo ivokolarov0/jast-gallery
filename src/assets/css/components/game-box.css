@@ -3,7 +3,16 @@
 }
 
 .game-box__image {
+  overflow: hidden;
   aspect-ratio: 300/450;
+}
+
+.game-box__link {
+  &:hover {
+    .game-box__image img {
+      transform: scale(1.1);
+    }
+  }
 }
 
 .game-box__image img {
@@ -11,6 +20,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 2s;
 }
 
 .game-box__details {

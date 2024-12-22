@@ -128,4 +128,15 @@ const getGame = async (id: string): Promise<[Product | null, null]> => {
   return [null, null];
 }
 
+export type { 
+  Product,
+  ProductVariant,
+  ProductAttributeValue,
+  ProductAttributeValueConfiguration,
+  ProductContext,
+  ProductImage,
+  ProductTranslation,
+  ProductVariantTranslation,
+  ChannelPricing 
+};
 export default getGame;

@@ -38,4 +38,5 @@ const getTranslations = async (id: string | number | undefined): Promise<[GameLi
   return [null, null]
 }
 
+export type { GameLink, GameLinksResponse }
 export default getTranslations;

@@ -53,7 +53,7 @@
     background: var(--c-dark-alt);
     color: #fff;
     text-decoration: none;
-    transition: background .3s;
+    transition: background var(--transition);
 
     &:hover {
       background: var(--c-dark);

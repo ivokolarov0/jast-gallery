@@ -74,4 +74,5 @@ const getPaginatedGames = async (page = "1", search = ''): Promise<[Result | nul
   return [null, null];
 }
 
+export type { Game, Product, ProductVariant, Result };
 export default getPaginatedGames;

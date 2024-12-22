@@ -1,8 +1,9 @@
 import Pagination from '@components/pagination';
 import DashboardItem from './dashboard-item';
+import { Product } from '@requests/get-paginated-games';
 
 interface DashboardProps {
-  items: any[];
+  items: Product[];
   pages: number
 }
 

@@ -10,7 +10,7 @@
     width: 20px;
     height: 15px;
     border-radius: 3px;
-    transition: all .3s;
+    transition: all var(--transition);
 
     &:hover {
       background-color: var(--c-blue);

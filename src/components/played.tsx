@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { markAsPlayed, removeAsPlayed } from '@requests/set-played';
 import Loading from '@components/loading';
+import type { ProductVariant } from '@requests/get-paginated-games';
 
 type Tags = {
   '@id': string,
@@ -9,7 +10,13 @@ type Tags = {
   type: string
 }
 
-const Played = ({ data, page, search }: any) => {
+type PropsType = {
+  data: ProductVariant,
+  page: string,
+  search: string
+}
+
+const Played = ({ data, page, search }: PropsType) => {
   const queryClient = useQueryClient();
   const isPlayed = data.userGameTags.find((item: Tags) => item.type === 'finished');
 
