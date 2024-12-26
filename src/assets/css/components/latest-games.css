@@ -66,9 +66,28 @@
     height: auto;
   }
 
-  h3 {
+  .latest-games__info {
     padding: 10px;
+  }
+
+  h3 {
     font-size: 1rem;
+  }
+
+  .price {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 1.25rem;
+  }
+
+  .price__old {
+    font-size: .9rem;
+  }
+
+  .price__old::first-letter,
+  .price__current::first-letter {
+    color: var(--c-active);
   }
 }
 

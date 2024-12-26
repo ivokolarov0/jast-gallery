@@ -5,7 +5,7 @@ import Logout from '@components/logout'
 const Header = ({ logged }: {logged: boolean}) => {
   return (
     <div className="header">
-      <div className="shell">
+      <div className="shell shell--full">
         <div className="header__inner">
           <Link to="/" className="logo">
             <img src={Logo} alt="" />

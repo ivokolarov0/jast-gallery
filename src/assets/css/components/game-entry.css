@@ -32,6 +32,7 @@
   }
 }
 
+
 .game-entry__col--right {
   padding: 20px;
   background: linear-gradient(180deg,#223f5a 0,#17314a);
@@ -50,5 +51,15 @@
 
   ul li {
     margin-bottom: 10px;
+  }
+}
+
+.game-entry__download {
+  h5 {
+    margin-bottom: 10px;
+  }
+
+  & ~ .game-entry__download {
+    margin-top: 20px;
   }
 }

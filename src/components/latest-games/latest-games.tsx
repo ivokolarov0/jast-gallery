@@ -1,13 +1,14 @@
+import { useRef } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ContentLoader from 'react-content-loader'
 import { Swiper, SwiperRef } from "swiper/react";
 import { SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import 'swiper/css/navigation';
 
 import { jastMedia } from '@utils/index'
 import getCatalog, { Product, Image } from "@requests/get-catalog";
-import 'swiper/css/navigation';
-import { useRef } from "react";
+import LatestGamesPrice from "./latest-games-price";
 
 const Loader = () => (
   <ContentLoader
@@ -67,7 +68,10 @@ const LatestGames = () => {
             <SwiperSlide key={index} className="latest-games__item">
               <a href={`https://jastusa.com/games/${game.code}/${game.translations.en_US.name}`} target='_blank'>
                 <Images data={game.images} />
-                <h3>{game.translations.en_US.name}</h3>
+                <div className="latest-games__info">
+                  <h3>{game.translations.en_US.name}</h3>
+                  {game.variants.map((variant) => <LatestGamesPrice key={variant.id} variant={variant} />)}
+                </div>
               </a>
             </SwiperSlide>
           ))}

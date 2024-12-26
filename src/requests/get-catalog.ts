@@ -93,11 +93,27 @@ interface AttributeValue {
   counter: number;
 }
 
+type RegionalPriceZone = {
+  "@context": string;
+  "@id": string;
+  "@type": string;
+  zone: string;
+}
+
 const getCatalog = async (catalog: CatalogType['catalog'], limit: string = '10'): Promise<[Catalog | any, any]> => {
   const token = await getLocalToken();
 
   let headers = new Headers({
     'content-type': "application/json",
+  });
+
+  if (token) {
+    headers.append('Authorization', `Bearer ${token}`);
+  }
+
+  const [ data ]: [ data: RegionalPriceZone | null, error: any] = await request(`/shop/regional-zone`, {
+    method: "GET",
+    headers: headers,
   });
 
   const params = new URLSearchParams();
@@ -107,11 +123,7 @@ const getCatalog = async (catalog: CatalogType['catalog'], limit: string = '10')
   params.append('limit', limit);
   params.append('localeCode', 'en_US');
   params.append('page', '1');
-  params.append('zone', 'YUG');
-
-  if (token) {
-    headers.append('Authorization', `Bearer ${token}`);
-  }
+  params.append('zone', data?.zone || 'USA');
 
   return request(`/shop/es?${params.toString()}`, {
     method: "GET",
@@ -119,5 +131,5 @@ const getCatalog = async (catalog: CatalogType['catalog'], limit: string = '10')
   });
 }
 
-export type { Catalog, Product, Image }
+export type { Catalog, Product, Image, Variant }
 export default getCatalog;
