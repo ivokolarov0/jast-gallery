@@ -1,6 +1,5 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 import { base } from '@requests/index'
-import { useGlobalProvider } from '@contexts/global'
 import { ProductVariant } from '@requests/get-paginated-games';
 
 type PropType = {
@@ -8,7 +7,7 @@ type PropType = {
 }
 
 const DashboardItem = ({item}: PropType) => {
-  const {page, search} = useGlobalProvider() as {
+  const {page, search} = useSearch({ from: '/account' }) as {
     page: string,
     search: string
   }

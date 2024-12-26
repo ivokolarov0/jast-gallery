@@ -1,13 +1,8 @@
 import { useRouter } from '@tanstack/react-router'
-import { useGlobalProvider } from '@contexts/global';
 
-const BackBtn = ({ page }: {page: string}) => {
-  const { setPage } = useGlobalProvider() as { setPage: (page: string) => void }
+const BackBtn = () => {
   const { history } = useRouter();
-  const goBack = () => {
-    setPage(page);
-    history.go(-1);
-  }
+  const goBack = () => history.go(-1);
 
   return (
     <div className="back-btn">

@@ -2,18 +2,7 @@ import { useState } from 'react'
 import ContentLoader from 'react-content-loader';
 
 import getDownloadLinks from '@requests/get-download-links'
-import Loading from '@components/loading';
 import { GameLink } from '@requests/get-translations';
-
-type ItemType = {
-  "@type": string,
-  "gameId": number,
-  "gameLinkId": number,
-  "label": string,
-  "platforms": string[],
-  "version": string
-}
-
 
 type DownloadBtnProps = {
   item: GameLink

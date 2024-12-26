@@ -1,19 +1,19 @@
-import { useGlobalProvider } from '@contexts/global';
-import { debounce } from '@utils/index';
 import { useRef } from 'react';
+import { useSearch, useNavigate } from '@tanstack/react-router';
+
+import { debounce } from '@utils/index';
 
 const SearchForm = () => {
-  const { setSearch, search, setPage } = useGlobalProvider();
+  const { page, search } = useSearch<any>({ from: '/account'});
+  const navigate = useNavigate({ from: '/account' })
   const input = useRef<HTMLInputElement>(null);
 
   const handleChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setPage(1);
+    navigate({ search: { page: page, search: e.target.value } });
   }, 500);
 
   const handleReset = () => {
-    setSearch('');
-    setPage(1);
+    navigate({ search: { page: 1, search: '' } });
     if(input.current) {
       input.current.value = '';
     }
@@ -24,7 +24,7 @@ const SearchForm = () => {
       <input
         ref={input}
         type="text"
-        defaultValue={search}
+        defaultValue={search || ''}
         placeholder="Search..."
         onChange={handleChange}
       />

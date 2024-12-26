@@ -27,7 +27,7 @@
     }
   }
 
-  .is-active a {
+  a.active {
     pointer-events: none;
     text-decoration: none;
     background-color: var(--c-active);
