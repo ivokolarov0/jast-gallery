@@ -25,8 +25,3 @@ export const debounce = (func: (...args: any[]) => void, delay: number) => {
     }, delay);
   };
 };
-
-export const getParam = (type: string) => {
-  const params = new URLSearchParams(window.location.search);
-  return params.get(type);
-}

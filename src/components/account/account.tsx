@@ -1,15 +1,20 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { useSearch } from '@tanstack/react-router';
 
 import getPaginatedGames from '@requests/get-paginated-games';
 import Dashboard from '@components/dashboard/dashboard';
 import SearchForm from '@components/search-form';
 import AccountLoader from './account-loader';
 
-const Account = ({ page, search }: {page: string, search: string}) => {
+const Account = () => {
+  const { page, search } = useSearch({ from: '/account' }) as {
+    page: string;
+    search: string;
+  };
   const { data, isLoading } = useQuery({
     queryKey: ['games', page, search],
     placeholderData: keepPreviousData,
-    queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
+    queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1], queryKey[2]),
   });
 
 
