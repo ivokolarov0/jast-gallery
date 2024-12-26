@@ -13,19 +13,15 @@ const Account = () => {
   };
   const { data, isLoading } = useQuery({
     queryKey: ['games', page, search],
-    placeholderData: keepPreviousData,
     queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1], queryKey[2]),
   });
 
-
-  if (isLoading) {
-    return <AccountLoader />;
-  }
+  const item = data?.[0];
 
   return (
     <>
-      {data?.[0] && <SearchForm />}
-      {data?.[0]?.['@id'] && <Dashboard items={data[0].products} pages={data?.[0].pages} />}
+      <SearchForm />
+      {isLoading ? <AccountLoader /> : item?.['@id'] && <Dashboard items={item.products} pages={item.pages} />}
     </>
   );
 };

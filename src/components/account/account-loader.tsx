@@ -17,16 +17,6 @@ const AccountLoader = () => {
   const items = Array.from({ length: 20 }, (_, index) => <Loader key={index} />);
   return (
     <>
-      <ContentLoader
-        speed={1}
-        backgroundColor={'var(--c-border)'}
-        foregroundColor={'var(--c-blue)'}
-        width={'100%'}
-        height={61}
-        className="search-form"
-      >
-        <rect x="0" y="0" rx="0" ry="0" width="100%" height="61" />
-      </ContentLoader>
       <ul className="games-list">
         {items.map((item, index) => <li key={index}>{item}</li>)}
       </ul>
