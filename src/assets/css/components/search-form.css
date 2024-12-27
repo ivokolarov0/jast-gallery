@@ -6,12 +6,16 @@
     background: var(--c-search);
     border: 0;
     width: 100%;
-    color: #fff;
+    color: var(--c-light-blue);
     font-size: 1.125rem;
 
     &:focus {
       outline: none;
     }
+  }
+
+  input::placeholder {
+    color: var(--c-light-blue);
   }
 }
 

@@ -1,11 +1,11 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import ContentLoader from 'react-content-loader'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import getBannerSlides from '@requests/get-website-banner';
+import useGetBannerSlides from '@hooks/use-get-banner-slides';
+
 
 type Slide = {
   href: string | null,
@@ -44,11 +44,7 @@ const Content = ({ data }: Data) => (
 )
 
 const Banner = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['website'],
-    placeholderData: keepPreviousData,
-    queryFn: () => getBannerSlides(),
-  });
+  const { data, isLoading } = useGetBannerSlides()
 
   return (
     <div className='banner'>

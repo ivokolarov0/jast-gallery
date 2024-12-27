@@ -15,7 +15,16 @@ const DashboardItem = ({item}: PropType) => {
 
   return (
     <div className="game-box">
-      <Link to={`/game/${item.productCode}?page=${page}&search=${search}`} className="game-box__link">
+      <Link
+        to={`/game/${item.productCode}`} className="game-box__link"
+        search={{ 
+          page, 
+          search, 
+          gameid: item.gameId,
+          translationId: item.game.translations.en_US.id
+        }}
+
+      >
         <div className="game-box__image">
           <img src={imagePath} alt="" />
         </div>

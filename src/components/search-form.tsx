@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useSearch, useNavigate } from '@tanstack/react-router';
 
-import { debounce } from '@utils/index';
+import debounce from 'lodash/debounce';
 
 const SearchForm = () => {
   const { search } = useSearch<any>({ from: '/account'});

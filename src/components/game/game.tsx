@@ -1,9 +1,6 @@
-import ContentLoader from 'react-content-loader';
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import DOMPurify from 'dompurify';
 
-import getPaginatedGames, { Product } from '@requests/get-paginated-games';
-import getGame from '@requests/get-game';
+import { Product } from '@requests/get-paginated-games';
 import BackBtn from '@components/back-btn'
 import GameInfo from '@components/game-info/game-info'
 import Played from '@components/played';
@@ -11,6 +8,8 @@ import GameVideo from './game-video';
 import GameImages from './game-images';
 import GameSidebar from './game-sidebar';
 import GameLoader from './game-loader';
+import useGetGame from '@hooks/use-get-game';
+import useGetSearchedGames from '@hooks/use-get-searched-games';
 
 type GameProps = {
   page: string;
@@ -19,19 +18,9 @@ type GameProps = {
 }
 
 const Game = ({ page, search, id }:GameProps) => {
-  const { data } = useQuery({
-    queryKey: ['game', id],
-    placeholderData: keepPreviousData,
-    queryFn: ({ queryKey }) => getGame(queryKey[1]),
-    
-  });
+  const { data } = useGetGame({ id });
   const response = data?.[0];
-  const { data: searchedGames, isRefetching } = useQuery({
-    queryKey: ['searched-games', page, search],
-    queryFn: () => getPaginatedGames('1', response?.name),
-    placeholderData: keepPreviousData,
-    enabled: !!response
-  })
+  const { data: searchedGames, isRefetching } = useGetSearchedGames({ response, from: '/game/$id' });
   const findCurrentGame = searchedGames?.[0]?.products?.find((item: Product) => item.variant.productCode === response?.code);
 
   if (!response) {
@@ -43,7 +32,7 @@ const Game = ({ page, search, id }:GameProps) => {
   return (
     <div className="game-entry">
       <div className="game-entry__top">
-        <BackBtn page={page} />
+        <BackBtn />
         
         {findCurrentGame && <Played data={findCurrentGame.variant} page={page} search={search} isRefetching={isRefetching} />}
       </div>

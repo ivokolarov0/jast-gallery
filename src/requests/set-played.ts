@@ -1,6 +1,10 @@
 import { getLocalToken } from "@utils/index";
 import { request } from './index';
 
+type TypeProp = {
+  type: 'finished' | 'love_it' | 'next_to_play' | 'recommended'
+}
+
 export const markAsPlayed = async (gameId: string | number) => {
   const token = await getLocalToken();
 

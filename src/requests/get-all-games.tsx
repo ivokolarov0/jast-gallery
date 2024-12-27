@@ -1,5 +1,9 @@
+import throttle from "lodash/throttle";
+import { toast } from "react-toastify";
+
 import { getLocalToken } from "@utils/index";
 import { request } from './index';
+
 
 interface GameLinkTranslation {
   "@id": string;
@@ -51,7 +55,8 @@ interface Result {
   messages?: string;
 }
 
-const getPaginatedGames = async (page = "1", search = '', itemsPerPage = "20"): Promise<[Result | null, null]> => {
+const getAllGames = throttle(async (page = "1", search = '', itemsPerPage = 100, token = null): Promise<[Result | null, null]> => {
+  const currentPage = parseInt(page);
   const searchParams = new URLSearchParams({
     localeCode: "en_US",
     phrase: String(search),
@@ -59,7 +64,7 @@ const getPaginatedGames = async (page = "1", search = '', itemsPerPage = "20"): 
     itemsPerPage: itemsPerPage,
     sort: "product_name_asc"
   }).toString();
-  const token = await getLocalToken();
+  token = token ?? await getLocalToken();
 
   if (token) {
     const response: [Result | any, any] = await request(`/shop/account/user-games-dev?${searchParams}`, {
@@ -68,11 +73,29 @@ const getPaginatedGames = async (page = "1", search = '', itemsPerPage = "20"): 
         'Authorization': `Bearer ${token}`
       }
     });
+
+    if(response[0].pages > 1 && currentPage < response[0].pages) {
+      const nextPage = parseInt(page) + 1;
+      const newReponse = await getAllGames(nextPage, search, itemsPerPage, token);
+      if(newReponse[0]) {
+        response[0].products = [...response[0].products, ...newReponse[0].products];
+      }
+    }
+
+    toast(
+      "Fetching completed ", 
+      { 
+        type: "success", 
+        autoClose: 1500, 
+        position: "bottom-right" 
+      }
+    )
+
     return response;
   }
 
   return [null, null];
-}
+}, 3000);
 
 export type { Game, Product, ProductVariant, Result };
-export default getPaginatedGames;
+export default getAllGames;

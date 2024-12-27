@@ -1,19 +1,15 @@
 import { ReactNode } from 'react';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { ToastContainer } from 'react-toastify';
 
-import getMe from '@requests/get-me';
 import Header from '@components/header/header';
+import useGetMe from '@hooks/use-get-me';
 
 type LayoutProps = {
   children: ReactNode;
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['me'],
-    placeholderData: keepPreviousData,
-    queryFn: () => getMe(),
-  });
+  const { data, isLoading } = useGetMe();
 
   if(isLoading) return null;
 
@@ -24,6 +20,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="shell">
           {children}
         </div>
+        <ToastContainer />
       </main>
     </div>
   );

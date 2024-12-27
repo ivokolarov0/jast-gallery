@@ -1,33 +1,18 @@
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useSearch } from "@tanstack/react-router";
 
-import getPaginatedGames, { Product } from '@requests/get-paginated-games';
-import getTranslations, { GameLink } from "@requests/get-translations"
+import { GameLink } from "@requests/get-translations"
 import Loading from '@components/loading';
 import DownloadBtn from "./download-btn";
+import useGetTranslations from "@hooks/use-get-translations";
 
-const Download = ({ id, page, search }: {id: string, page: string, search: string}) => {
+const Download = () => {
   const [enabled, setEnabled] = useState(false);
-  const { data: games, isLoading: pageLoading } = useQuery({
-    queryKey: ['searched-games', page, search],
-    queryFn: ({ queryKey }) =>
-      getPaginatedGames(queryKey[1] as string, queryKey[2] as string),
-    enabled: !!enabled
-  })
-  const requestID = games?.[0]?.products.find((game: Product) => game.variant.productCode === id)?.variant?.game?.translations?.en_US?.id;
-
-  const { data: gameIDs, isLoading: translationLoading } = useQuery({
-    queryKey: ['translations', requestID],
-    queryFn: ({ queryKey }) => getTranslations(queryKey[1]),
-    enabled: !!requestID && !!enabled,
-  })
+  const { translationId } = useSearch({ from: '/game/$id' }) as { translationId: string }
+  const { data: gameIDs, isLoading } = useGetTranslations({ translationId, enabled });
   const gameIdItems = gameIDs?.[0]?.gamePathLinks;
 
-  const isLoading = pageLoading || translationLoading
-
-  const handleClick = () => {
-    setEnabled(true)
-  }
+  const handleClick = () => setEnabled(true);
 
   if(isLoading) {
     return <Loading />

@@ -2,6 +2,8 @@
 @import url('./general/variables.css');
 @import url('./general/fonts.css');
 
+@import url('./overwrites/toastify.css');
+
 @import url('./components/btn.css');
 @import url('./components/shell.css');
 @import url('./components/header.css');

@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ContentLoader from 'react-content-loader'
 import { Swiper, SwiperRef } from "swiper/react";
 import { SwiperSlide } from "swiper/react";
@@ -7,8 +6,9 @@ import { Navigation } from "swiper/modules";
 import 'swiper/css/navigation';
 
 import { jastMedia } from '@utils/index'
-import getCatalog, { Product, Image } from "@requests/get-catalog";
+import { Product, Image } from "@requests/get-catalog";
 import LatestGamesPrice from "./latest-games-price";
+import useGetLatestFames from "@hooks/use-get-latest-games";
 
 const Loader = () => (
   <ContentLoader
@@ -38,11 +38,7 @@ const Images = ({ data }: {data: Image[]}) => {
 }
 
 const LatestGames = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['latest-games'],
-    placeholderData: keepPreviousData,
-    queryFn: () => getCatalog('new-titles_en_US'),
-  });
+  const { data, isLoading } = useGetLatestFames();
   const swiper = useRef<SwiperRef>(null);
 
   if(isLoading) return <Loader />
