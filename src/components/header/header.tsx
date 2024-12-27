@@ -17,9 +17,12 @@ const Header = ({ logged }: {logged: boolean}) => {
                   <li>
                     <Link to="/account">My games</Link>
                   </li>
+                  <li>
+                    <Link to="/settings/security">Settings</Link>
+                  </li>
                   <li className="side-link">
                     <Logout />
-                  </li> 
+                  </li>
                 </>
               )
               : <li className="side-link">

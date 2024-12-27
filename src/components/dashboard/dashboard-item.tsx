@@ -30,7 +30,7 @@ const DashboardItem = ({item}: PropType) => {
           <DashboardItemOverlay platforms={item.platforms} />
         </div>
         <div className="game-box__details">
-          <h5>{item.productName}</h5>
+          <h6>{item.productName}</h6>
           {item.userGameTags.length > 0 && <div className="game-box__tags">
             {item.userGameTags.map((tag: any) => (
               <span key={tag['@id']} className={`tag tag--${tag.type}`}>{tag.type}</span>

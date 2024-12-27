@@ -22,4 +22,12 @@
     font-weight: 500;
     line-height: 1.5;
   }
+
+  .form-field__info {
+    display: inline-block;
+    padding: 5px 0;
+    font-size: 0.8125rem;
+    line-height: 1.2;
+    color: var(--c-light-blue);
+  }
 }

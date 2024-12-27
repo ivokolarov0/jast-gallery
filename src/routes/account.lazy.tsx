@@ -1,7 +1,8 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 
+import Layout from '@components/layout';
 import Account from '@components/account/account';
 
 export const Route = createLazyFileRoute('/account')({
-  component: () => <Account />,
+  component: () => <Layout><Account /></Layout>,
 })

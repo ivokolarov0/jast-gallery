@@ -13,12 +13,14 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PassImport } from './routes/pass'
 
 // Create Virtual Routes
 
 const LoginLazyImport = createFileRoute('/login')()
 const AccountLazyImport = createFileRoute('/account')()
 const IndexLazyImport = createFileRoute('/')()
+const SettingsSecurityLazyImport = createFileRoute('/settings/security')()
 const GameIdLazyImport = createFileRoute('/game/$id')()
 
 // Create/Update Routes
@@ -33,10 +35,22 @@ const AccountLazyRoute = AccountLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/account.lazy').then((d) => d.Route))
 
+const PassRoute = PassImport.update({
+  path: '/pass',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const SettingsSecurityLazyRoute = SettingsSecurityLazyImport.update({
+  path: '/settings/security',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/settings/security.lazy').then((d) => d.Route),
+)
 
 const GameIdLazyRoute = GameIdLazyImport.update({
   path: '/game/$id',
@@ -52,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/pass': {
+      id: '/pass'
+      path: '/pass'
+      fullPath: '/pass'
+      preLoaderRoute: typeof PassImport
       parentRoute: typeof rootRoute
     }
     '/account': {
@@ -75,6 +96,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GameIdLazyImport
       parentRoute: typeof rootRoute
     }
+    '/settings/security': {
+      id: '/settings/security'
+      path: '/settings/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof SettingsSecurityLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -82,47 +110,70 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/pass': typeof PassRoute
   '/account': typeof AccountLazyRoute
   '/login': typeof LoginLazyRoute
   '/game/$id': typeof GameIdLazyRoute
+  '/settings/security': typeof SettingsSecurityLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/pass': typeof PassRoute
   '/account': typeof AccountLazyRoute
   '/login': typeof LoginLazyRoute
   '/game/$id': typeof GameIdLazyRoute
+  '/settings/security': typeof SettingsSecurityLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/pass': typeof PassRoute
   '/account': typeof AccountLazyRoute
   '/login': typeof LoginLazyRoute
   '/game/$id': typeof GameIdLazyRoute
+  '/settings/security': typeof SettingsSecurityLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/account' | '/login' | '/game/$id'
+  fullPaths:
+    | '/'
+    | '/pass'
+    | '/account'
+    | '/login'
+    | '/game/$id'
+    | '/settings/security'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/account' | '/login' | '/game/$id'
-  id: '__root__' | '/' | '/account' | '/login' | '/game/$id'
+  to: '/' | '/pass' | '/account' | '/login' | '/game/$id' | '/settings/security'
+  id:
+    | '__root__'
+    | '/'
+    | '/pass'
+    | '/account'
+    | '/login'
+    | '/game/$id'
+    | '/settings/security'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  PassRoute: typeof PassRoute
   AccountLazyRoute: typeof AccountLazyRoute
   LoginLazyRoute: typeof LoginLazyRoute
   GameIdLazyRoute: typeof GameIdLazyRoute
+  SettingsSecurityLazyRoute: typeof SettingsSecurityLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  PassRoute: PassRoute,
   AccountLazyRoute: AccountLazyRoute,
   LoginLazyRoute: LoginLazyRoute,
   GameIdLazyRoute: GameIdLazyRoute,
+  SettingsSecurityLazyRoute: SettingsSecurityLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -138,13 +189,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/pass",
         "/account",
         "/login",
-        "/game/$id"
+        "/game/$id",
+        "/settings/security"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/pass": {
+      "filePath": "pass.tsx"
     },
     "/account": {
       "filePath": "account.lazy.tsx"
@@ -154,6 +210,9 @@ export const routeTree = rootRoute
     },
     "/game/$id": {
       "filePath": "game/$id.lazy.tsx"
+    },
+    "/settings/security": {
+      "filePath": "settings/security.lazy.tsx"
     }
   }
 }
