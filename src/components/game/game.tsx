@@ -40,7 +40,7 @@ const Game = ({ page, search, id }:GameProps) => {
         <h2>{response.name}</h2>
       </div>
       <div className="game-entry__inner">
-        <div className="game-entry__col">
+        <div className="game-entry__col game-entry__col--main">
           <GameImages data={response} />
           <GameVideo data={response} />
           <div

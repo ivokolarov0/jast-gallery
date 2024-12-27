@@ -14,7 +14,7 @@
 
 .game-entry__inner {
   display: grid;
-  grid-template-columns: 2.5fr 1fr;
+  grid-template-columns: minmax(0, 1fr) 380px;
   gap: 20px;
 }
 
@@ -31,7 +31,6 @@
     height: auto;
   }
 }
-
 
 .game-entry__col--right {
   padding: 20px;

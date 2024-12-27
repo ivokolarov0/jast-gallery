@@ -8,7 +8,6 @@
 @import url('./components/shell.css');
 @import url('./components/header.css');
 @import url('./components/main-nav.css');
-@import url('./components/carousel.css');
 @import url('./components/login-form.css');
 @import url('./components/form-field.css');
 @import url('./components/games-list.css');
@@ -16,6 +15,7 @@
 @import url('./components/pagination.css');
 @import url('./components/game-entry.css');
 @import url('./components/game-info.css');
+@import url('./components/game-carousel.css');
 @import url('./components/details.css');
 @import url('./components/video-target.css');
 @import url('./components/search-form.css');
