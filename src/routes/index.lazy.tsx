@@ -10,7 +10,6 @@ export const Route = createLazyFileRoute('/')({
   component: () => {
     const { hasPasswordPage, securityPassed }: any = useGlobal();
 
-    console.log(hasPasswordPage,!securityPassed)
     if(hasPasswordPage && !securityPassed) {
       return <Pass />
     }

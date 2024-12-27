@@ -6,8 +6,6 @@ type PropType = {
   platforms: Array<{ en_US: string }>
 }
 
-console.log(Linux)
-
 const DashboardItemOverlay = ({ platforms }: PropType) => {
   const icons: { [key: string]: string } = {
     'Windows': Windows,

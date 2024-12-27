@@ -22,7 +22,6 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
       setLoading(true);
       const store = new Store('store.bin');
       const pass: any = await store.get<string>('app-password');
-      console.log(pass)
       setHasPassword(!!pass);
       setSavedPass(pass);
       setLoading(false);
