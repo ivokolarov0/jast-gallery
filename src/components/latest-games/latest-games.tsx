@@ -9,6 +9,7 @@ import { jastMedia } from '@utils/index'
 import { Product, Image } from "@requests/get-catalog";
 import LatestGamesPrice from "./latest-games-price";
 import useGetLatestFames from "@hooks/use-get-latest-games";
+import { useTranslation } from "react-i18next";
 
 const Loader = () => (
   <ContentLoader
@@ -39,6 +40,7 @@ const Images = ({ data }: {data: Image[]}) => {
 
 const LatestGames = () => {
   const { data, isLoading } = useGetLatestFames();
+  const { t } = useTranslation();
   const swiper = useRef<SwiperRef>(null);
 
   if(isLoading) return <Loader />
@@ -46,8 +48,8 @@ const LatestGames = () => {
   return (
     <div className='latest-games'>
       <div className="latest-games__head">
-        <h2>New titles</h2>
-        <a href="https://jastusa.com/games?catalogCode=new-titles_en_US" className="btn btn--empty btn--small" target="_blank">See all new titles</a>
+        <h2>{t('homepage.new-titles')}</h2>
+        <a href="https://jastusa.com/games?catalogCode=new-titles_en_US" className="btn btn--empty btn--small" target="_blank">{t('homepage.see-all-new-titles')}</a>
       </div>
       <div className="latest-games__items">
         <button

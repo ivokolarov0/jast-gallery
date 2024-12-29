@@ -1,15 +1,16 @@
 import DOMPurify from 'dompurify';
-import Download from '@components/download/download';
-import { Product, ProductImage } from '@requests/get-game';
+import { useTranslation } from 'react-i18next';
+
 import { jastMedia } from '@utils/index'
+import { Product, ProductImage } from '@requests/get-game';
+import Download from '@components/download/download';
 
 type PropTypes = {
   data: Product;
-  page: string;
-  search: string;
 }
 
-const GameSidebar = ({ data, page, search }: PropTypes) => {
+const GameSidebar = ({ data }: PropTypes) => {
+  const { t } = useTranslation();
   const coverImage = data?.images?.find(
     (image: ProductImage) => image.type === 'TAIL_PACKAGE_THUMBNAIL_PRODUCT',
   )
@@ -29,15 +30,15 @@ const GameSidebar = ({ data, page, search }: PropTypes) => {
       {data?.productESRB?.matureContent && (
         <div className="game-info__mature-hld">
           <div className="game-info__mature">
-            Adults Only<br /> 
-            Mature Content
+            {t('adults-only')}<br /> 
+            {t('mature-content')}
           </div>
         </div>
       )}
 
       <hr />
 
-      <Download id={data.code} page={page} search={search} />
+      <Download />
     </div>
   )
 }

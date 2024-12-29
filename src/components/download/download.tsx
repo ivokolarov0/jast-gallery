@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { useSearch } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import { GameLink } from "@requests/get-translations"
+import useGetTranslations from "@hooks/use-get-translations";
 import Loading from '@components/loading';
 import DownloadBtn from "./download-btn";
-import useGetTranslations from "@hooks/use-get-translations";
 
 const Download = () => {
+  const { t } = useTranslation();
   const [enabled, setEnabled] = useState(false);
   const { translationId } = useSearch({ from: '/game/$id' }) as { translationId: string }
   const { data: gameIDs, isLoading } = useGetTranslations({ translationId, enabled });
@@ -27,7 +29,7 @@ const Download = () => {
   }
 
   return (
-    <button type="button" className="btn full" onClick={handleClick}>Show Download Links</button>
+    <button type="button" className="btn full" onClick={handleClick}>{t('show-download-links')}</button>
   )
 }
 

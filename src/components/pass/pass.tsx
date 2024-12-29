@@ -1,9 +1,12 @@
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from '@tanstack/react-router';
-import { GlobalContextType, useGlobal } from '@contexts/global';
+
+import { useGlobal } from '@contexts/global';
 
 const Pass = () => {
+  const { t } = useTranslation();
   const { savedPass, setSecurityPassed }: any = useGlobal();
   const navigate = useNavigate();
   const { handleSubmit, register } = useForm({
@@ -20,7 +23,7 @@ const Pass = () => {
       });
     } else {
       toast(
-        "Wrong password", 
+        t("password.wrong"), 
         { 
           type: "error", 
           autoClose: 1500, 
@@ -32,12 +35,12 @@ const Pass = () => {
 
   return (
     <div className="pass-wrapper">
-      <h4>Application password</h4>
+      <h4>{t('password.application-password')}</h4>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-field">
-          <input id="app-pass" className="field" type="password" placeholder="Enter password" {...register('password')} />
+          <input id="app-pass" className="field" type="password" placeholder={t('password.enter-password')} {...register('password')} />
         </div>
-        <button className="btn" type="submit">Submit</button>
+        <button className="btn" type="submit">{t('password.submit')}</button>
       </form>
       <ToastContainer />
     </div>

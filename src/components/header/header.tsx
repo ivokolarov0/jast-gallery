@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next'
 import { Link } from '@tanstack/react-router'
+
 import Logo from '@assets/images/logo.svg'
 import Logout from '@components/logout'
 
 const Header = ({ logged }: {logged: boolean}) => {
+  const { t } = useTranslation()
   return (
     <div className="header">
       <div className="shell shell--full">
@@ -15,10 +18,14 @@ const Header = ({ logged }: {logged: boolean}) => {
               {logged ? (
                 <>
                   <li>
-                    <Link to="/account">My games</Link>
+                    <Link to="/account">
+                      {t('header.my-games')}
+                    </Link>
                   </li>
                   <li>
-                    <Link to="/settings/security">Settings</Link>
+                    <Link to="/settings/security">
+                      {t('header.settings')}
+                    </Link>
                   </li>
                   <li className="side-link">
                     <Logout />
@@ -26,10 +33,11 @@ const Header = ({ logged }: {logged: boolean}) => {
                 </>
               )
               : <li className="side-link">
-                  <Link to="/login">Login</Link>
+                  <Link to="/login">
+                    {t('header.login')}
+                  </Link>
                 </li>  
               }
-              
             </ul>
           </nav>
         </div>

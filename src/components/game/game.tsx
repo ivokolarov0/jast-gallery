@@ -49,7 +49,7 @@ const Game = ({ page, search, id }:GameProps) => {
           />
           {response?.attributes && <GameInfo attributes={response?.attributes} />}
         </div>
-        <GameSidebar data={response} page={page} search={search} />
+        <GameSidebar data={response} />
       </div>
     </div>
   )

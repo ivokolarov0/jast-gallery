@@ -1,0 +1,37 @@
+{
+  "header": {
+    "my-games": "My games",
+    "settings": "Settings",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "homepage": {
+    "see-all-new-titles": "See all new titles",
+    "new-titles": "New titles"
+  },
+  "password": {
+    "application-password": "Application password",
+    "text1": "This will add a simple password page when the application is opened to prevent people from accessing it.",
+    "text2": "Leaving it empty will remove the page.",
+    "disclaimer": "the password will be saved as plain text locally, don't use existing passwords!",
+    "save": "Save",
+    "wrong": "Wrong password",
+    "submit": "Submit",
+    "enter-password": "Enter password",
+    "saved": "Password saved!"
+  },
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "remember-me": "Remember me"
+  },
+  "search": "Search",
+  "go-back": "Go back",
+  "adults-only": "Adults Only",
+  "mature-content": "Mature Content",
+  "show-download-links": "Show Download Links",
+  "loading": "Loading",
+  "request-download-link": "Request download link",
+  "download": "Download"
+}

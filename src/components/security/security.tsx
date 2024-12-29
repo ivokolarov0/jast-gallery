@@ -1,9 +1,13 @@
-import { Store } from "@tauri-apps/plugin-store";
 import { useEffect, useState } from "react";
+import { Store } from "@tauri-apps/plugin-store";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import Loading from "@components/loading";
+
 const Security = () => {
+  const { t } = useTranslation();
   const store = new Store('store.bin');
   const [loading, setLoading] = useState<boolean>(true);
   const { handleSubmit, register, setValue } = useForm({
@@ -30,7 +34,7 @@ const Security = () => {
     setLoading(false)
 
     toast(
-      "Password saved!", 
+      t('password.saved'), 
       { 
         type: "success", 
         autoClose: 1000, 
@@ -40,25 +44,28 @@ const Security = () => {
   }
 
   if(loading) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-field">
-          <label htmlFor="app-pass">Application password</label>
+          <label htmlFor="app-pass">{t('password.application-password')}</label>
           <input
             id="app-pass"
             className="field"
             type="password"
             {...register('password')} 
           />
-          <small className="form-field__info">This will add a simple password page when the application is opened to prevent people from accessing it.<br/>Leaving it empty will remove the page.</small>
+          <small className="form-field__info">
+            {t('password.text1')}
+            <br/>{t('password.text2')}
+          </small>
           <br/>
-          <small className="form-field__info">* the password will be saved as plain text locally, don't use existing passwords!</small>
+          <small className="form-field__info">* {t('password.disclaimer')}</small>
         </div>
-        <button className="btn" type="submit">Save</button>
+        <button className="btn" type="submit">{t('password.save')}</button>
       </form>
     </div>
   )

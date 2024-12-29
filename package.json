@@ -25,6 +25,7 @@
     "react-content-loader": "^7.0.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.53.0",
+    "react-i18next": "^15.3.0",
     "react-toastify": "^11.0.2",
     "swiper": "^11.1.15"
   },

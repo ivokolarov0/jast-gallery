@@ -2,8 +2,10 @@ import { useRef } from 'react';
 import { useSearch, useNavigate } from '@tanstack/react-router';
 
 import debounce from 'lodash/debounce';
+import { useTranslation } from 'react-i18next';
 
 const SearchForm = () => {
+  const { t } = useTranslation();
   const { search } = useSearch<any>({ from: '/account'});
   const navigate = useNavigate({ from: '/account' })
   const input = useRef<HTMLInputElement>(null);
@@ -25,7 +27,7 @@ const SearchForm = () => {
         ref={input}
         type="text"
         defaultValue={search || ''}
-        placeholder="Search..."
+        placeholder={t('search') + '...'}
         onChange={handleChange}
       />
       {search && <button type="reset" className="search-form__reset" onClick={handleReset}></button>}

@@ -6,6 +6,7 @@ import login from '@requests/login';
 import Loading from '@components/loading';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 
 type ValuesType = {
   email: string,
@@ -14,6 +15,7 @@ type ValuesType = {
 }
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const { navigate } = useRouter();
   const store = new Store('store.bin');
   const [isLoading, setIsLoading] = useState(false);
@@ -59,19 +61,18 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-      <input type="hidden" {...register('remember_me')} />
       <div className="form-field">
-        <label>Email</label>
+        <label>{t('login.email')}</label>
         <input type="email" className="field" {...register('email', {required: true})} />
       </div>
       <div className="form-field">
-        <label>Password</label>
+        <label>{t('login.password')}</label>
       <input type="password" className="field" {...register('password', {required: true})} />
       </div>
       <div className="form-field">
-        <label><input type="checkbox" {...register('remember_me')} /> Remember me</label>
+        <label><input type="checkbox" {...register('remember_me')} /> {t('login.remember-me')}</label>
       </div>
-      <button type="submit" className="btn">Log in</button>
+      <button type="submit" className="btn">{t('login.login')}</button>
     </form>
   )
 }

@@ -3,6 +3,7 @@ import ContentLoader from 'react-content-loader';
 
 import getDownloadLinks from '@requests/get-download-links'
 import { GameLink } from '@requests/get-translations';
+import { useTranslation } from 'react-i18next';
 
 type DownloadBtnProps = {
   item: GameLink
@@ -22,6 +23,7 @@ const Loader = () => (
 )
 
 const Btn = ({ item }: DownloadBtnProps) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false)
   const [downloadLink, setDownloadLink] = useState<string | null>(null)
   const handleClick = async (gameId: number, gameLinkId: number) => {
@@ -41,7 +43,7 @@ const Btn = ({ item }: DownloadBtnProps) => {
   }
 
   if(downloadLink) {
-    return <a className="btn" target='_blank' href={downloadLink} download>Download</a>
+    return <a className="btn" target='_blank' href={downloadLink} download>{t('download')}</a>
   }
 
   return (
@@ -50,7 +52,7 @@ const Btn = ({ item }: DownloadBtnProps) => {
       className='btn'
       onClick={() => handleClick(item.gameId, item.gameLinkId)}
     >
-      Request download link
+      {t('request-download-link')}
     </button>
   )
 }

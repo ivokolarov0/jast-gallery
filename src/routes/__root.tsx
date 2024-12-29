@@ -5,6 +5,8 @@ import {
 } from '@tanstack/react-query';
 import { GlobalProvider } from '@contexts/global';
 
+import '@src/i18n/config';
+
 // Create a client
 const queryClient = new QueryClient()
 
