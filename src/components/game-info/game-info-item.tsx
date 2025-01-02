@@ -1,11 +1,11 @@
 import { ProductAttributeValue } from "@requests/get-game";
+import GameInfoItemType from "./game-info-item-type";
 
 type PropType = {
   attr: ProductAttributeValue
 }
 
 const GameInfoItem = ({ attr }: PropType) => {
-  const value = attr.value;
   const title = attr.code.replace(/_/g, ' ');
 
   if(attr.code === 'video_html') {
@@ -16,11 +16,7 @@ const GameInfoItem = ({ attr }: PropType) => {
     <div className="details-wrapper">
       <h5>{title}</h5>
       <div className="details">
-        {Array.isArray(value) 
-          ? value.map((val: string, index) => (
-            <div key={index}>{attr.configuration.choices[val].en_US}</div>
-          )) 
-          : <div className="details__entry" dangerouslySetInnerHTML={{__html: value}} />}
+        <GameInfoItemType attr={attr} />
       </div>
     </div>
   )

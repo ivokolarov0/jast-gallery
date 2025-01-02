@@ -21,4 +21,8 @@
   .details__entry {
     line-height: 1.4;
   }
+
+  a {
+    color: #fff;
+  }
 }
