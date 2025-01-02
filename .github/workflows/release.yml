@@ -1,28 +1,60 @@
+# .github/workflows/release.yml
+
+name: Release Workflow
+
 on:
   push:
     tags:
-      - 'v*'
-
-name: Create Release
+      - 'v*'  # This triggers the workflow only for tags starting with 'v' (e.g., v0.3.0)
 
 jobs:
-  build:
-    name: Create Release
+  release:
+    name: Create GitHub Release
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Create Release
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js (if you're using Node.js, otherwise remove or change this)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Extract version from tag
+        id: extract_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        # Extract the version from the tag by removing "v" from the tag name (e.g., v0.3.0 -> 0.3.0)
+
+      - name: Create GitHub Release
         id: create_release
-        uses: comnoco/create-release@v2
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}  # Use the tag that triggered the workflow
           release_name: Release ${{ github.ref }}
           body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+            Release notes for ${{ github.ref }}.
           draft: false
           prerelease: false
+
+      - name: Upload MSI File
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./src-tauri/target/release/bundle/msi/JastUSGallery_${{ env.VERSION }}_x64_en-US.msi
+          asset_name: JastUSGallery_${{ env.VERSION }}_x64_en-US.msi
+          asset_content_type: application/x-msi
+
+      - name: Upload EXE File
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./src-tauri/target/release/bundle/msi/JastUSGallery_${{ env.VERSION }}_x64_en-US.exe
+          asset_name: JastUSGallery_${{ env.VERSION }}_x64_en-US.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
