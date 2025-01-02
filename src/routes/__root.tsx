@@ -1,4 +1,4 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, ScrollRestoration } from '@tanstack/react-router'
 import {
   QueryClient,
   QueryClientProvider,
@@ -14,6 +14,7 @@ export const Route = createRootRoute({
   component: () => (
     <QueryClientProvider client={queryClient}>
       <GlobalProvider>
+        <ScrollRestoration />
         <Outlet />
       </GlobalProvider>
     </QueryClientProvider>

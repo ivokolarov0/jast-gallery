@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import useGetSearchedGames from '@hooks/use-get-searched-games';
 import { Product } from '@requests/get-paginated-games';
 import StatusTagsItem from './status-tags-item'
@@ -8,6 +10,7 @@ type PropsType = {
 }
 
 const StatusTags = ({ response }: PropsType) => {
+  const { t } = useTranslation();
   const { data } = useGetSearchedGames({ response, from: '/game/$id' });
   const findCurrentGame = data?.[0]?.products?.find((item: Product) => item.variant.productCode === response?.code);
 
@@ -36,7 +39,7 @@ const StatusTags = ({ response }: PropsType) => {
 
   return (
     <div className="status-tags">
-      <h5>Set status:</h5>
+      <h5>{t('set-status')}:</h5>
       {items.map((item) => <StatusTagsItem key={item.value} item={item} game={findCurrentGame} />)}
     </div>
   )

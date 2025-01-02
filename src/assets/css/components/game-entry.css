@@ -43,6 +43,8 @@
 }
 
 .game-entry__desc {
+  margin-bottom: 20px;
+  
   ul {
     margin: 0 0 20px 20px;
     list-style: outside;

@@ -19,7 +19,7 @@ const GameInfoItemType = ({ attr }: any) => {
       const tags = Object.values(value).map((val: unknown) => attr.configuration.choices[val as string].en_US).join(', ');
       return <div>{tags}</div>;
     default:
-      return <div dangerouslySetInnerHTML={{__html: value}} />;
+      return <div className="details__entry" dangerouslySetInnerHTML={{__html: value}} />;
   }
 }
 

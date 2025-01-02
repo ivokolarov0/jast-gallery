@@ -50,5 +50,8 @@
   "apply": "Apply",
   "reset": "Reset",
   "show-filter": "Show filter",
-  "hide-filter": "Hide filter"
+  "hide-filter": "Hide filter",
+  "options": "Options",
+  "release-date": "Release date",
+  "set-status": "Set status"
 }
