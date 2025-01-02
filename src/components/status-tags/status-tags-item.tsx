@@ -1,7 +1,9 @@
+import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams, useSearch } from '@tanstack/react-router';
+
 import { Product } from '@requests/get-paginated-games';
 import { removeGameTag, setGameTag } from '@requests/set-user-game-tags';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useSearch } from '@tanstack/react-router';
 
 type PropsType = {
   game: Product | undefined,
@@ -15,14 +17,19 @@ type TypeProp = 'finished' | 'love_it' | 'next_to_play' | 'recommended'
 
 const StatusTagsItem = ({ item, game }: PropsType) => {
   const queryClient = useQueryClient();
+  const { id } = useParams({ from: '/game/$id' });
   const { page, search } = useSearch({ from: '/game/$id' }) as {
     page: string;
     search: string;
   };
   const currentTag = game?.variant?.userGameTags.find((tag) => tag.type === item.value);
+  const [tag, setTag] = useState<any>(currentTag);
   const invalidateQuery = () => {
     queryClient.invalidateQueries({
       queryKey: ['searched-games', page, search]
+    });
+    queryClient.invalidateQueries({
+      queryKey: ['game', id]
     });
   }
 
@@ -32,13 +39,18 @@ const StatusTagsItem = ({ item, game }: PropsType) => {
   });
   const addMutation = useMutation({
     mutationFn: ({ gameId, type }: { gameId: number, type: TypeProp }) => setGameTag(gameId, type),
-    onSuccess: invalidateQuery
+    onSuccess: (data) => {
+      invalidateQuery();
+      if(data?.[0]) {
+        setTag(data[0]);
+      }
+    }
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     invalidateQuery();
 
-    if(!game) {
+    if(!game || tag === null) {
       return;
     }
 
@@ -52,12 +64,12 @@ const StatusTagsItem = ({ item, game }: PropsType) => {
     } else {
       removeMutation.mutate({
         gameId, 
-        tagId: currentTag.id
+        tagId: tag?.id
       })
     }
   }
 
-  
+  const isDisable = addMutation.status === 'pending' || removeMutation.status === 'pending';
 
   return (
     <div className="custom-checkbox">
@@ -67,6 +79,7 @@ const StatusTagsItem = ({ item, game }: PropsType) => {
           name="status"
           value={item.value}
           onChange={handleChange}
+          disabled={isDisable}
           defaultChecked={currentTag}
         />
         <span></span>
