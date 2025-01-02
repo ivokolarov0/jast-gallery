@@ -20,6 +20,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, no need to create your own token
         with:
+          tag_name: ${{ github.ref_name }}
           release_name: JastGallery ${{ github.event.head_commit.timestamp }}
           body: |
             Changes in this Release
