@@ -2,6 +2,7 @@ import { Link, useSearch } from '@tanstack/react-router'
 import { base } from '@requests/index'
 import { ProductVariant } from '@requests/get-paginated-games';
 import DashboardItemOverlay from './dashboard-item-overlay';
+import DashboardItemBottom from './dashboard-item-bottom';
 
 type PropType = {
   item: ProductVariant
@@ -29,14 +30,7 @@ const DashboardItem = ({item}: PropType) => {
           <img src={imagePath} alt="" className="game-box__image-main" />
           <DashboardItemOverlay platforms={item.platforms} />
         </div>
-        <div className="game-box__details">
-          <h6>{item.productName}</h6>
-          {item.userGameTags.length > 0 && <div className="game-box__tags">
-            {item.userGameTags.map((tag: any) => (
-              <span key={tag['@id']} className={`tag tag--${tag.type}`}>{tag.type}</span>
-            ))}
-          </div>}
-        </div>
+        <DashboardItemBottom item={item} />
       </Link>
     </div>
   )

@@ -5,6 +5,8 @@ import { jastMedia } from '@utils/index'
 import { Product, ProductImage } from '@requests/get-game';
 import Download from '@components/download/download';
 
+import JastLogo from '@assets/images/logo-jast.png';
+
 type PropTypes = {
   data: Product;
 }
@@ -23,6 +25,13 @@ const GameSidebar = ({ data }: PropTypes) => {
           <img src={jastMedia + '/' + coverImage.path} />
         </div>
       )}
+      <ul className="game-entry__websites">
+        <li>
+          <a href={`https://jastusa.com/games/${data.code}`} target="_blank">
+            <img src={JastLogo} width="30" height="30" alt="JastUSA" />
+          </a>
+        </li>
+      </ul>
       <p
         dangerouslySetInnerHTML={{ __html: shortDescriptionSanitize }}
       />

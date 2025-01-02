@@ -22,6 +22,8 @@
 @import url('./components/banner.css');
 @import url('./components/latest-games.css');
 @import url('./components/pass.css');
+@import url('./components/drawer.css');
+@import url('./components/custom-checkbox.css');
 
 @import url('./components/swiper.css');
 

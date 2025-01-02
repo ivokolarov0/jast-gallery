@@ -1,0 +1,37 @@
+.custom-checkbox {
+  margin-bottom: 5px;
+
+  label {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity .3s;
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  input {
+    position: absolute;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+  }
+
+  input:checked + span {
+    background: var(--c-checked);
+    border-color: var(--c-checked);
+  }
+
+  span {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--c-border);
+    border-radius: 3px;
+    transition: all .3s;
+  }
+}

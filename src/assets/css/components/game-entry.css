@@ -6,9 +6,9 @@
 
 .game-entry__header {
   margin-bottom: 20px;
-  img {
-    max-width: 100%;
-    height: auto;
+
+  h2 {
+    margin: 0;
   }
 }
 
@@ -39,7 +39,7 @@
 }
 
 .game-entry__cover {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .game-entry__desc {
@@ -60,5 +60,18 @@
 
   & ~ .game-entry__download {
     margin-top: 20px;
+  }
+}
+
+.game-entry__websites {
+  margin: 0;
+  margin-bottom: 10px;
+
+  a {
+    transition: opacity .3s;
+  }
+
+  a:hover {
+    opacity: .7;
   }
 }

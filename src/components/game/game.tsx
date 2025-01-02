@@ -1,15 +1,15 @@
 import DOMPurify from 'dompurify';
 
-import { Product } from '@requests/get-paginated-games';
+import useGetGame from '@hooks/use-get-game';
 import BackBtn from '@components/back-btn'
 import GameInfo from '@components/game-info/game-info'
-import Played from '@components/played';
 import GameVideo from './game-video';
 import GameImages from './game-images';
 import GameSidebar from './game-sidebar';
 import GameLoader from './game-loader';
-import useGetGame from '@hooks/use-get-game';
-import useGetSearchedGames from '@hooks/use-get-searched-games';
+import Drawer from '@components/drawer/drawer';
+import useDrawer from '@components/drawer/use-drawer';
+import StatusTags from '@components/status-tags/status-tags';
 
 type GameProps = {
   page: string;
@@ -17,11 +17,10 @@ type GameProps = {
   id: string;
 }
 
-const Game = ({ page, search, id }:GameProps) => {
+const Game = ({ id }:GameProps) => {
   const { data } = useGetGame({ id });
+  const { isOpen, handleClose, handleOpen }= useDrawer();
   const response = data?.[0];
-  const { data: searchedGames, isRefetching } = useGetSearchedGames({ response, from: '/game/$id' });
-  const findCurrentGame = searchedGames?.[0]?.products?.find((item: Product) => item.variant.productCode === response?.code);
 
   if (!response) {
     return <GameLoader />
@@ -33,8 +32,15 @@ const Game = ({ page, search, id }:GameProps) => {
     <div className="game-entry">
       <div className="game-entry__top">
         <BackBtn />
+        <button
+          type="button"
+          className="btn btn--empty"
+          onClick={handleOpen}
+        >Options</button>
+        <Drawer open={isOpen} handleClose={handleClose}>
+          <StatusTags response={response} />
+        </Drawer>
         
-        {findCurrentGame && <Played data={findCurrentGame.variant} page={page} search={search} isRefetching={isRefetching} />}
       </div>
       <div className="game-entry__header">
         <h2>{response.name}</h2>
