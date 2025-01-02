@@ -23,14 +23,16 @@ const SearchForm = () => {
 
   return (
     <form className="search-form">
-      <input
-        ref={input}
-        type="text"
-        defaultValue={search || ''}
-        placeholder={t('search') + '...'}
-        onChange={handleChange}
-      />
-      {search && <button type="reset" className="search-form__reset" onClick={handleReset}></button>}
+      <div className="search-form__top">
+        <input
+          ref={input}
+          type="text"
+          defaultValue={search || ''}
+          placeholder={t('search') + '...'}
+          onChange={handleChange}
+        />
+        {search && <button type="reset" className="search-form__reset" onClick={handleReset}></button>}
+      </div>
     </form>
   )
 }

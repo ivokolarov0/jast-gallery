@@ -1,6 +1,6 @@
 .search-form {
-  position: relative;
   margin-bottom: 30px;
+  
   input {
     padding: 20px;
     background: var(--c-search);
@@ -17,6 +17,10 @@
   input::placeholder {
     color: var(--c-light-blue);
   }
+}
+
+.search-form__top {
+  position: relative;
 }
 
 .search-form__reset {
