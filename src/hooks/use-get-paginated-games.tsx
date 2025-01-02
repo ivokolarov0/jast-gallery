@@ -14,12 +14,12 @@ const useGetPaginatedGames = (from: any) => {
 
   const { data, isLoading } = useQuery({
     queryKey: ['games', page, search, attributes, taxons, userGameTags],
-    queryFn: ({ queryKey }) => getPaginatedGames({
-      page: queryKey[1],
-      search: queryKey[2],
-      attributes: queryKey[3],
-      taxons: queryKey[4],
-      userGameTags: queryKey[5]
+    queryFn: () => getPaginatedGames({
+      page,
+      search,
+      attributes,
+      taxons,
+      userGameTags,
     }),
   });
 

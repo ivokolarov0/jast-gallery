@@ -1,0 +1,43 @@
+.filters {
+  padding: 6px 30px;
+  background-color: var(--c-dark-alt);
+
+  .filter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--c-dark);
+  }
+
+  .filter__title {
+    width: 70px;
+    text-align:center;
+    text-transform: uppercase;
+    color: var(--c-light);
+  }
+
+  .filter__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .custom-checkbox {
+    font-size: 0;
+    margin: 0;
+  }
+
+  .custom-checkbox label {
+    font-size: 1rem;
+  }
+}
+
+.filters__cta {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0 14px;
+  align-items: center;
+  justify-content: center;
+}

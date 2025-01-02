@@ -8,13 +8,16 @@ type PropType = {
 }
 
 const useGetSearchedGames = ({ response, from }: PropType) => {
-  const { page, search } = useSearch({ from }) as {
+  const { page, search, userGameTags, attributes, taxons } = useSearch({ from }) as {
     page: string;
     search: string;
+    userGameTags: string;
+    attributes: string;
+    taxons: string;
   };
   const { data, isRefetching } = useQuery({
-    queryKey: ['searched-games', page, search],
-    queryFn: () => getPaginatedGames('1', response?.name),
+    queryKey: ['searched-games', page, search, userGameTags, attributes, taxons],
+    queryFn: () => getPaginatedGames({ page: '1', search: response?.name, userGameTags, attributes, taxons }),
     placeholderData: keepPreviousData,
     enabled: !!response
   })

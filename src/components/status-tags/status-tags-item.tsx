@@ -18,15 +18,19 @@ type TypeProp = 'finished' | 'love_it' | 'next_to_play' | 'recommended'
 const StatusTagsItem = ({ item, game }: PropsType) => {
   const queryClient = useQueryClient();
   const { id } = useParams({ from: '/game/$id' });
-  const { page, search } = useSearch({ from: '/game/$id' }) as {
+  const { page, search, userGameTags, attributes, taxons } = useSearch({ from: '/game/$id' }) as {
     page: string;
     search: string;
+    userGameTags: string;
+    attributes: string;
+    taxons: string;
   };
   const currentTag = game?.variant?.userGameTags.find((tag) => tag.type === item.value);
   const [tag, setTag] = useState<any>(currentTag);
+
   const invalidateQuery = () => {
     queryClient.invalidateQueries({
-      queryKey: ['searched-games', page, search]
+      queryKey: ['searched-games', page, search, userGameTags, attributes, taxons]
     });
     queryClient.invalidateQueries({
       queryKey: ['game', id]
@@ -35,7 +39,10 @@ const StatusTagsItem = ({ item, game }: PropsType) => {
 
   const removeMutation = useMutation({
     mutationFn: ({ gameId, tagId }: { gameId: number; tagId: number }) => removeGameTag(gameId, tagId),
-    onSuccess: invalidateQuery
+    onSuccess: invalidateQuery,
+    onError: (error) => {
+      console.log(error)
+    }
   });
   const addMutation = useMutation({
     mutationFn: ({ gameId, type }: { gameId: number, type: TypeProp }) => setGameTag(gameId, type),
@@ -44,6 +51,9 @@ const StatusTagsItem = ({ item, game }: PropsType) => {
       if(data?.[0]) {
         setTag(data[0]);
       }
+    },
+    onError: (error) => {
+      console.log(error)
     }
   });
 
@@ -82,7 +92,7 @@ const StatusTagsItem = ({ item, game }: PropsType) => {
           disabled={isDisable}
           defaultChecked={currentTag}
         />
-        <span></span>
+        <span />
         {item.title}
       </label>
     </div>

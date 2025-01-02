@@ -33,5 +33,22 @@
   "show-download-links": "Show Download Links",
   "loading": "Loading",
   "request-download-link": "Request download link",
-  "download": "Download"
+  "download": "Download",
+  "filter": "Filter",
+  "system": "System",
+  "tag": "Tag",
+  "type": "Type",
+  "windows": "Windows",
+  "mac": "Mac",
+  "linux": "Linux",
+  "love-it": "Love it",
+  "finished": "Finished",
+  "next-to-play": "Next to play",
+  "recommended": "Recommended",
+  "games": "Games",
+  "dlc": "DLC",
+  "apply": "Apply",
+  "reset": "Reset",
+  "show-filter": "Show filter",
+  "hide-filter": "Hide filter"
 }
