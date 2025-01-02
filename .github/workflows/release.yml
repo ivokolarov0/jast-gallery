@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set Release Name
+        id: set_release_name
+        run: echo "RELEASE_NAME=JastGallery $(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -21,7 +25,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, no need to create your own token
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: JastGallery $(date +'%Y-%m-%d')
+          release_name: ${{ env.RELEASE_NAME }}
           body: |
             Changes in this Release
             - First Change
