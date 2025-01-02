@@ -51,7 +51,13 @@ interface Result {
   messages?: string;
 }
 
-const getPaginatedGames = async (page = "1", search = '', attributes = '', taxons = '', userGameTags = ''): Promise<[Result | null, null]> => {
+const getPaginatedGames = async ({
+  page = "1",
+  search = '',
+  attributes = '',
+  taxons = '',
+  userGameTags = ''
+}): Promise<[Result | null, null]> => {
   const searchParams = new URLSearchParams({
     localeCode: "en_US",
     phrase: String(search),
@@ -60,28 +66,25 @@ const getPaginatedGames = async (page = "1", search = '', attributes = '', taxon
     sort: "product_name_asc"
   });
   const token = await getLocalToken();
-
-  if(attributes !== '') {
-    const items = attributes.split(',');
-    items.forEach((item) => {
-      searchParams.append('attributes[]', item);
-    });
+  const argumentTypes = {
+    attributes,
+    taxons,
+    userGameTags
   }
 
-  if(taxons !== '') {
-    const items = taxons.split(',');
-    items.forEach((item) => {
-      searchParams.append('taxons[]', item);
+  const handleArguments = (type: string) => {
+    const argument = argumentTypes[type as keyof typeof argumentTypes];
+    if(argument !== '') {
+      const items = argument.split(',');
+      items.forEach((item) => {
+        searchParams.append(`${type}[]`, item);
+      });
     }
-    );
   }
 
-  if(userGameTags !== '') {
-    const items = userGameTags.split(',');
-    items.forEach((item) => {
-      searchParams.append('userGameTags[]', item);
-    });
-  }
+  handleArguments('attributes');
+  handleArguments('taxons');
+  handleArguments('userGameTags');
 
   const finalSearchURL = searchParams.toString();
 

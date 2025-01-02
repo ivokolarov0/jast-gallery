@@ -11,10 +11,16 @@ const useGetPaginatedGames = (from: any) => {
     taxons: string;
     userGameTags: string;
   };
-  console.log(userGameTags)
+
   const { data, isLoading } = useQuery({
     queryKey: ['games', page, search, attributes, taxons, userGameTags],
-    queryFn: ({ queryKey }) => getPaginatedGames(queryKey[1], queryKey[2], queryKey[3], queryKey[4], queryKey[5]),
+    queryFn: ({ queryKey }) => getPaginatedGames({
+      page: queryKey[1],
+      search: queryKey[2],
+      attributes: queryKey[3],
+      taxons: queryKey[4],
+      userGameTags: queryKey[5]
+    }),
   });
 
   return { data, isLoading }
