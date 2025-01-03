@@ -4,8 +4,6 @@ import { createContext, PropsWithChildren, useContext, useEffect, useState } fro
 export interface GlobalContextType {
   hasPasswordPage: boolean | null;
   setHasPassword: React.Dispatch<React.SetStateAction<boolean | null>>;
-  savedPass: string;
-  setSavedPass: React.Dispatch<React.SetStateAction<string>>;
   securityPassed: boolean;
   setSecurityPassed: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -15,15 +13,13 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [securityPassed, setSecurityPassed] = useState<boolean>(false);
   const [hasPasswordPage, setHasPassword] = useState<boolean | null>(null);
-  const [savedPass, setSavedPass] = useState('');
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       const store = new Store('store.bin');
-      const pass: any = await store.get<string>('app-password');
+      const pass: any = await store.get<string>('has_password');
       setHasPassword(!!pass);
-      setSavedPass(pass);
       setLoading(false);
     })()
   }, [])
@@ -34,8 +30,6 @@ export const GlobalProvider = ({ children }: PropsWithChildren) => {
     <GlobalContext.Provider value={{
       hasPasswordPage, 
       setHasPassword,
-      savedPass,
-      setSavedPass,
       securityPassed,
       setSecurityPassed,
     }}>

@@ -42,6 +42,7 @@ const LoginForm = () => {
 
     if(data?.token) {
       await store.set('account', data);
+      await store.save();
     }
 
     queryClient.invalidateQueries({

@@ -18,7 +18,7 @@ const Security = () => {
 
   useEffect(() => {
     (async () => {
-      const pass: string = (await store.get('app-password')) ?? '';
+      const pass: string = (await store.get('app_pass')) ?? '';
       setValue('password', pass);
       setLoading(false);
     })();
@@ -27,10 +27,13 @@ const Security = () => {
   const onSubmit = async (values: {password: string}) => {
     setLoading(true)
     if(values.password != '') {
-      await store.set('app-password', values.password);
+      await store.set('has_password', true);
+      await store.set('app_pass', values.password);
     } else {
-      await store.delete('app-password');
+      await store.set('has_password', false);
+      await store.delete('app_pass');
     }
+    await store.save();
     setLoading(false)
 
     toast(
