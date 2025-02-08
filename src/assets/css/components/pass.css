@@ -8,6 +8,17 @@
   form {
     display: flex;
     gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .pass-forgot {
+    color: var(--c-white);
+    text-decoration: none;
+    font-size: 0.85rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .form-field {

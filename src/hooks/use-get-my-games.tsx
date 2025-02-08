@@ -1,14 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
-import getAllGames from '@requests/get-all-games';
+import getMyGames from '@requests/get-my-games';
 
-const useGetAllGames = () => {
+const useGetMyGames = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['my-games'],
-    queryFn: () => getAllGames("1", "", 100),
+    queryFn: () => getMyGames("1", "", 100),
   });
 
   return { data, isLoading }
 }
 
-export default useGetAllGames
+export default useGetMyGames

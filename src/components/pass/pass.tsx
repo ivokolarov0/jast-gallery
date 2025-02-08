@@ -1,13 +1,14 @@
+import { invoke } from '@tauri-apps/api/core';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 
 import { useGlobal } from '@contexts/global';
 
 const Pass = () => {
   const { t } = useTranslation();
-  const { savedPass, setSecurityPassed }: any = useGlobal();
+  const { setSecurityPassed }: any = useGlobal();
   const navigate = useNavigate();
   const { handleSubmit, register } = useForm({
     defaultValues: {
@@ -15,8 +16,8 @@ const Pass = () => {
     }
   });
 
-  const onSubmit = (values: {password: string}) => {
-    if(values.password === savedPass) {
+  const onSubmit = async (values: {password: string}) => {
+    if(await invoke('password_check', { password: values.password })) {
       setSecurityPassed(true);
       navigate({
         to: '/'
@@ -42,6 +43,7 @@ const Pass = () => {
         </div>
         <button className="btn" type="submit">{t('password.submit')}</button>
       </form>
+      <Link to="/login" search={{ forgot: true }} className="pass-forgot">{t('forgotten-password')}</Link>
       <ToastContainer />
     </div>
   )

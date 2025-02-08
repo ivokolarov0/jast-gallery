@@ -1,3 +1,4 @@
+import { Store } from "@tauri-apps/plugin-store";
 import { getLocalToken } from "@utils/index";
 import { request } from './index';
 
@@ -43,6 +44,12 @@ const getMe = async (): Promise<[Order | null, null]> => {
       },
       body: JSON.stringify({"channelCode":"JASTUSA","currency":"USD","localeCode":"en_US"})
     });
+    
+    if(response[0]?.code === 401) {
+      const store = new Store('store.bin');
+      await store.delete('account');
+      await store.save();
+    }
     return response;
   }
 

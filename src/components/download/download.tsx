@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { useSearch } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
@@ -14,22 +14,26 @@ const Download = () => {
   const { data: gameIDs, isLoading } = useGetTranslations({ translationId, enabled });
   const gameIdItems = gameIDs?.[0]?.gamePathLinks;
 
-  const handleClick = () => setEnabled(true);
+  const handleClick = useCallback(() => setEnabled(true), []);
 
-  if(isLoading) {
+  if (isLoading) {
     return <Loading />
   }
 
-  if(enabled && gameIdItems) {
+  if (enabled && gameIdItems) {
     return (
       <>
-        {gameIdItems.map((item: GameLink) => <DownloadBtn key={item.gameLinkId} item={item} />)}
+        {gameIdItems.map((item: GameLink) => (
+          <DownloadBtn key={item.gameLinkId} item={item} />
+        ))}
       </>
     )
   }
 
   return (
-    <button type="button" className="btn full" onClick={handleClick}>{t('show-download-links')}</button>
+    <button type="button" className="btn full" onClick={handleClick}>
+      {t('show-download-links')}
+    </button>
   )
 }
 

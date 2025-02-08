@@ -1,11 +1,18 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from '@tanstack/react-router'
+import { Link, useSearch } from '@tanstack/react-router'
 
 import Logo from '@assets/images/logo.svg'
 import Logout from '@components/logout'
 
+
 const Header = ({ logged }: {logged: boolean}) => {
-  const { t } = useTranslation()
+  const { forgot }: { forgot: boolean } = useSearch({ strict: false });
+  const { t } = useTranslation();
+
+  if(forgot) {
+    return null;
+  }
+
   return (
     <div className="header">
       <div className="shell shell--full">
