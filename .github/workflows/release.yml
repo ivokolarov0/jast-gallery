@@ -17,14 +17,19 @@ jobs:
         id: set_release_name
         run: echo "RELEASE_NAME=JastGallery $(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-      # Create a new tag before the release
-      - name: Create new tag
+      # Extract the version from package.json
+      - name: Get package version
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
+
+      # Create a new tag based on the package version
+      - name: Create new tag based on package version
         id: create_tag
         run: |
-          TAG_NAME="release-$(date +'%Y%m%d%H%M%S')"
-          git tag $TAG_NAME
-          git push origin $TAG_NAME
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          git tag v${{ env.PACKAGE_VERSION }}
+          git push origin v${{ env.PACKAGE_VERSION }}
 
       - name: Create Release
         id: create_release
@@ -32,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.TAG_NAME }}  # Use the new tag created
+          tag_name: v${{ env.PACKAGE_VERSION }}  # Use the package version as the tag
           release_name: ${{ env.RELEASE_NAME }}
           body: |
             Changes in this Release
