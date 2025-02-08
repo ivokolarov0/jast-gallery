@@ -10,7 +10,8 @@
     "tauri": "tauri",
     "version:patch": "npm version patch && git push --follow-tags",
     "version:minor": "npm version minor && git push --follow-tags",
-    "version:major": "npm version minor && git push --follow-tags"
+    "version:major": "npm version minor && git push --follow-tags",
+    "release": "git checkout remotes/origin/release && git merge master && git push"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.56.2",
