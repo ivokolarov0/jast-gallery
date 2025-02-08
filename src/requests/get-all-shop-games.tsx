@@ -1,4 +1,4 @@
-import { method, throttle } from "lodash";
+import { throttle } from "lodash";
 import { request } from ".";
 
 interface ShopResponse {
