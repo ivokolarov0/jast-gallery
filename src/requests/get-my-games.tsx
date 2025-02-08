@@ -55,7 +55,7 @@ interface Result {
   messages?: string;
 }
 
-const getAllGames = throttle(async (page = "1", search = '', itemsPerPage = 100, token = null): Promise<[Result | null, null]> => {
+const getMyGames = throttle(async (page = "1", search = '', itemsPerPage = 100, token = null): Promise<[Result | null, null]> => {
   const currentPage = parseInt(page);
   const searchParams = new URLSearchParams({
     localeCode: "en_US",
@@ -76,7 +76,7 @@ const getAllGames = throttle(async (page = "1", search = '', itemsPerPage = 100,
 
     if(response[0].pages > 1 && currentPage < response[0].pages) {
       const nextPage = parseInt(page) + 1;
-      const newReponse = await getAllGames(nextPage, search, itemsPerPage, token);
+      const newReponse = await getMyGames(nextPage, search, itemsPerPage, token);
       if(newReponse[0]) {
         response[0].products = [...response[0].products, ...newReponse[0].products];
       }
@@ -98,4 +98,4 @@ const getAllGames = throttle(async (page = "1", search = '', itemsPerPage = 100,
 }, 3000);
 
 export type { Game, Product, ProductVariant, Result };
-export default getAllGames;
+export default getMyGames;
