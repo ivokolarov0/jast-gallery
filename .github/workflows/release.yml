@@ -24,13 +24,6 @@ jobs:
           VERSION=$(jq -r '.version' package.json)
           echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
 
-      # Create a new tag based on the package version
-      - name: Create new tag based on package version
-        id: create_tag
-        run: |
-          git tag v${{ env.PACKAGE_VERSION }}
-          git push origin v${{ env.PACKAGE_VERSION }}
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
