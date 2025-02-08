@@ -1,6 +1,5 @@
 on:
   push:
-    # Sequence of patterns matched against refs/tags
     branches: [release]
   workflow_dispatch:
 
@@ -18,13 +17,22 @@ jobs:
         id: set_release_name
         run: echo "RELEASE_NAME=JastGallery $(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
+      # Create a new tag before the release
+      - name: Create new tag
+        id: create_tag
+        run: |
+          TAG_NAME="release-$(date +'%Y%m%d%H%M%S')"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, no need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
+          tag_name: ${{ env.TAG_NAME }}  # Use the new tag created
           release_name: ${{ env.RELEASE_NAME }}
           body: |
             Changes in this Release
