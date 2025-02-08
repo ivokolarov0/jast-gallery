@@ -13,10 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set Release Name
-        id: set_release_name
-        run: echo "RELEASE_NAME=JastGallery $(date +'%Y-%m-%d')" >> $GITHUB_ENV
-
       # Extract the version from package.json
       - name: Get package version
         id: get_version
@@ -31,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ env.PACKAGE_VERSION }}  # Use the package version as the tag
-          release_name: ${{ env.RELEASE_NAME }}
+          release_name: v${{ env.PACKAGE_VERSION }}
           body: |
             Changes in this Release
             - First Change
