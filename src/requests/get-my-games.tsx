@@ -67,7 +67,7 @@ const getMyGames = throttle(async (page = "1", search = '', itemsPerPage = 100, 
   token = token ?? await getLocalToken();
 
   if (token) {
-    const response: [Result | any, any] = await request(`/shop/account/user-games-dev?${searchParams}`, {
+    const response: [Result | any, any] = await request(`/shop/account/user-games?${searchParams}`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`

@@ -14,7 +14,7 @@ type LoginResponseType = {
   message?: string
 }
 
-const login = (body: LoginValuesType): Promise<[LoginResponseType | null, any]> => request('/shop/authentication-token', {
+const login = async (body: LoginValuesType): Promise<[LoginResponseType | null, any]> => request('/shop/customers/token', {
   method: "POST",
   headers: {
     'content-type': "application/json"

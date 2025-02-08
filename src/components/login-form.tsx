@@ -35,6 +35,7 @@ const LoginForm = () => {
     if(error) {
       alert('There was some kind of error')
     }
+    console.log(data,error)
 
     if (data?.code === 401) {
       alert(data?.message || 'There was some kind of error');

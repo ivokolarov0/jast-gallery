@@ -89,7 +89,7 @@ const getPaginatedGames = async ({
   const finalSearchURL = searchParams.toString();
 
   if (token) {
-    const response: [Result | any, any] = await request(`/shop/account/user-games-dev?${finalSearchURL}`, {
+    const response: [Result | any, any] = await request(`/shop/account/user-games?${finalSearchURL}`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${token}`

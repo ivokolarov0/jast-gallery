@@ -38,8 +38,9 @@ const Pass = () => {
     <div className="pass-wrapper">
       <h4>{t('password.application-password')}</h4>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <input id="app-username" className="field" type="text" autoComplete="username" placeholder={t('username.enter-username')} style={{ display: 'none' }} />
         <div className="form-field">
-          <input id="app-pass" className="field" type="password" placeholder={t('password.enter-password')} {...register('password')} />
+          <input id="app-pass" className="field" type="password" autoComplete="new-password" placeholder={t('password.enter-password')} {...register('password')} />
         </div>
         <button className="btn" type="submit">{t('password.submit')}</button>
       </form>
