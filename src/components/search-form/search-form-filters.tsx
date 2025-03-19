@@ -78,7 +78,7 @@ const SearchFormFilters = () => {
       return acc;
     }, {});
 
-    navigate({ search: { page, search, ...entries } });
+    navigate({ search: { page: 1, search, ...entries } });
   }
 
   const handleReset = () => navigate({ search: { page, search } });
