@@ -2,21 +2,27 @@ import Pagination from '@components/pagination';
 import DashboardItem from './dashboard-item';
 import { Product } from '@requests/get-paginated-games';
 import { useEffect, useState } from 'react';
-import { bulkIsGameSynced } from '@requests/db';
+import { bulkIsGameSynced, GameListItem } from '@requests/db';
 import VisibleSyncWorker from './visible-sync-worker';
+import { Link } from '@tanstack/react-router';
+import { base } from '@requests/index';
 
-interface DashboardProps {
+export interface DashboardProps {
   items: Product[];
-  pages: number
+  pages: number;
+  dbItems?: GameListItem[];
 }
 
-const Dasboard = ({ items, pages }: DashboardProps) => {
+const Dasboard = ({ items, pages, dbItems }: DashboardProps) => {
   const [syncedSet, setSyncedSet] = useState<Set<string>>(new Set());
   const [syncingAll, setSyncingAll] = useState(false);
   const [queue, setQueue] = useState<string[]>([]);
   const [idx, setIdx] = useState(0);
 
+  const usingDb = Array.isArray(dbItems);
+
   useEffect(() => {
+    if (usingDb) return;
     const ids = items.map(i => i.variant.productCode).filter(Boolean);
     if (!ids.length) {
       setSyncedSet(new Set());
@@ -31,9 +37,10 @@ const Dasboard = ({ items, pages }: DashboardProps) => {
         setSyncedSet(new Set());
       }
     })();
-  }, [items]);
+  }, [items, usingDb]);
 
   const startSyncVisible = () => {
+    if (usingDb) return; // no sync action in db mode
     const idsRaw = items.map(i => i.variant.productCode).filter(Boolean);
     const ids = Array.from(new Set(idsRaw)).filter(id => !syncedSet.has(id));
     if (!ids.length) return;
@@ -62,25 +69,47 @@ const Dasboard = ({ items, pages }: DashboardProps) => {
   const currentId = queue[idx];
   const progress = queue.length ? Math.min(100, Math.round(((idx) / queue.length) * 100)) : 0;
 
+  const imagePath = base + '/300/450/resize/';
+
   return (
     <>
-      <div className="dashboard-actions" style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-        <button className="btn" onClick={startSyncVisible} disabled={syncingAll || !items.length}>
-          {syncingAll ? `Syncing ${idx}/${queue.length}… (${progress}%)` : 'Sync visible to DB'}
-        </button>
-      </div>
+      {!usingDb && (
+        <div className="dashboard-actions" style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+          <button className="btn" onClick={startSyncVisible} disabled={syncingAll || !items.length}>
+            {syncingAll ? `Syncing ${idx}/${queue.length}… (${progress}%)` : 'Sync visible to DB'}
+          </button>
+        </div>
+      )}
 
-      {syncingAll && currentId && (
+      {!usingDb && syncingAll && currentId && (
         <VisibleSyncWorker key={currentId} id={currentId} onDone={(ok: boolean) => handleWorkerDone(currentId, ok)} />
       )}
 
       <ul className="games-list">
-        {items.map((item: Product) => (
-          <li key={item.variant.gameId}>
-            <DashboardItem item={item.variant} synced={syncedSet.has(item.variant.productCode)} />
-          </li>
-        ))}
+        {usingDb ? (
+          (dbItems || []).map((g) => (
+            <li key={g.jast_id}>
+              <Link to={`/game/${g.jast_id}`} className="game-box__link" search={{}}>
+                <div className="game-box">
+                  <div className="game-box__image">
+                    {g.cover_image && <img src={imagePath + g.cover_image} alt="" className="game-box__image-main" />}
+                  </div>
+                  <div className="game-box__details">
+                    <h6>{g.name}</h6>
+                  </div>
+                </div>
+              </Link>
+            </li>
+          ))
+        ) : (
+          items.map((item: Product) => (
+            <li key={item.variant.gameId}>
+              <DashboardItem item={item.variant} synced={syncedSet.has(item.variant.productCode)} />
+            </li>
+          ))
+        )}
       </ul>
+
       <Pagination pages={pages} />
     </>
   )

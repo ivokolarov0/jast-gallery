@@ -2,9 +2,9 @@ import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-const SearchFormFilters = () => {
+const SearchFormFilters = ({ children, hideFilters }: any) => {
   const { t } = useTranslation();
-  const { search, page, attributes, userGameTags, taxons } = useSearch<any>({ from: '/account'});
+  const { search, page, attributes, userGameTags, taxons, source } = useSearch<any>({ from: '/account'});
   const navigate = useNavigate({ from: '/account' })
   const { handleSubmit, register } = useForm<any>({
     defaultValues: {
@@ -78,39 +78,42 @@ const SearchFormFilters = () => {
       return acc;
     }, {});
 
-    navigate({ search: { page: 1, search, ...entries } });
+    navigate({ search: { page: 1, search, source, ...entries } });
   }
 
-  const handleReset = () => navigate({ search: { page, search } });
+  const handleReset = () => navigate({ search: { page, search, source } });
 
   return (
     <div className="filters">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {filters.map((filter, index) => (
-          <div className="filter" key={index}>
-            <div className="filter__title">{filter.title}:</div>
-            <div className="filter__items">
-              {filter.items.map((item, index) => (
-                <div className="custom-checkbox" key={index}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      value={item.value}
-                      {...register(`${filter.name}[]`)} 
-                    />
-                    <span></span>
-                    {item.title}
-                  </label>
-                </div>
-              ))}
+      {children}
+      {!hideFilters && 
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {filters.map((filter, index) => (
+            <div className="filter" key={index}>
+              <div className="filter__title">{filter.title}:</div>
+              <div className="filter__items">
+                {filter.items.map((item, index) => (
+                  <div className="custom-checkbox" key={index}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        value={item.value}
+                        {...register(`${filter.name}[]`)} 
+                      />
+                      <span></span>
+                      {item.title}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
+          ))}
+          <div className="filters__cta">
+            <button type="reset" className="btn btn--empty" onClick={handleReset}>{t('reset')}</button>
+            <button type="submit" className="btn">{t('apply')}</button>
           </div>
-        ))}
-        <div className="filters__cta">
-          <button type="reset" className="btn btn--empty" onClick={handleReset}>{t('reset')}</button>
-          <button type="submit" className="btn">{t('apply')}</button>
-        </div>
-      </form>
+        </form>
+      }
     </div>
   )
 }

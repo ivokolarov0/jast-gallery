@@ -6,6 +6,10 @@ export type GameListItem = {
   cover_image?: string | null;
 };
 
+export type DbTag = { key: string; title: string };
+
+export type PagedDbResult = { items: GameListItem[]; total: number; pages: number };
+
 export async function isGameSynced(jastId: string): Promise<boolean> {
   return invoke<boolean>('is_game_synced', { payload: JSON.stringify({ jast_id: jastId }) });
 }
@@ -20,4 +24,16 @@ export async function saveGameIfMissing(payload: any): Promise<boolean> {
 
 export async function searchGamesByTags(tagKeys: string[]): Promise<GameListItem[]> {
   return invoke<GameListItem[]>('search_games_by_tags', { tag_keys: tagKeys });
+}
+
+export async function searchDbGames(query: string, tagKeys: string[]): Promise<GameListItem[]> {
+  return invoke<GameListItem[]>('search_db_games', { payload: JSON.stringify({ query, tag_keys: tagKeys }) });
+}
+
+export async function searchDbGamesPaged(query: string, tagKeys: string[], page: number, pageSize = 20): Promise<PagedDbResult> {
+  return invoke<PagedDbResult>('search_db_games_paged', { payload: JSON.stringify({ query, tag_keys: tagKeys, page, page_size: pageSize }) });
+}
+
+export async function getDbTags(): Promise<DbTag[]> {
+  return invoke<DbTag[]>('list_db_tags');
 }
