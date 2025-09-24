@@ -5,10 +5,11 @@ import DashboardItemOverlay from './dashboard-item-overlay';
 import DashboardItemBottom from './dashboard-item-bottom';
 
 type PropType = {
-  item: ProductVariant
+  item: ProductVariant,
+  synced?: boolean,
 }
 
-const DashboardItem = ({item}: PropType) => {
+const DashboardItem = ({item, synced}: PropType) => {
   const {page, search} = useSearch({ from: '/account' }) as {
     page: string,
     search: string
@@ -27,6 +28,7 @@ const DashboardItem = ({item}: PropType) => {
         }}
       >
         <div className="game-box__image">
+          {synced && <span className="badge" title="Synced to DB">synced</span>}
           <img src={imagePath} alt="" className="game-box__image-main" />
           <DashboardItemOverlay platforms={item.platforms} />
         </div>

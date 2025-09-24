@@ -35,6 +35,18 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 300/450;
+
+  .badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    z-index: 1;
+  }
 }
 
 .game-box__link {
