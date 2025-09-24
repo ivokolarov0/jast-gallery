@@ -4,7 +4,7 @@ import { Product } from '@requests/get-paginated-games';
 import { useEffect, useState } from 'react';
 import { bulkIsGameSynced, GameListItem } from '@requests/db';
 import VisibleSyncWorker from './visible-sync-worker';
-import { Link } from '@tanstack/react-router';
+import { Link, useSearch } from '@tanstack/react-router';
 import { base } from '@requests/index';
 
 export interface DashboardProps {
@@ -20,6 +20,8 @@ const Dasboard = ({ items, pages, dbItems }: DashboardProps) => {
   const [idx, setIdx] = useState(0);
 
   const usingDb = Array.isArray(dbItems);
+
+  const { search, dbTags, page } = useSearch<any>({ from: '/account' });
 
   useEffect(() => {
     if (usingDb) return;
@@ -71,6 +73,9 @@ const Dasboard = ({ items, pages, dbItems }: DashboardProps) => {
 
   const imagePath = base + '/300/450/resize/';
 
+  const dbLinkSearch = { source: 'db', dbTags: dbTags || '', search: search || '' };
+  const currentPage = Number(page) || 1;
+
   return (
     <>
       {!usingDb && (
@@ -89,7 +94,7 @@ const Dasboard = ({ items, pages, dbItems }: DashboardProps) => {
         {usingDb ? (
           (dbItems || []).map((g) => (
             <li key={g.jast_id}>
-              <Link to={`/game/${g.jast_id}`} className="game-box__link" search={{}}>
+              <Link to={`/game/${g.jast_id}`} className="game-box__link" search={{ ...dbLinkSearch, page: currentPage }}>
                 <div className="game-box">
                   <div className="game-box__image">
                     {g.cover_image && <img src={imagePath + g.cover_image} alt="" className="game-box__image-main" />}
@@ -104,13 +109,23 @@ const Dasboard = ({ items, pages, dbItems }: DashboardProps) => {
         ) : (
           items.map((item: Product) => (
             <li key={item.variant.gameId}>
-              <DashboardItem item={item.variant} synced={syncedSet.has(item.variant.productCode)} />
+              <DashboardItem item={item.variant} /* synced computed in list; omit prop to use internal check */ />
             </li>
           ))
         )}
       </ul>
 
-      <Pagination pages={pages} />
+      {usingDb ? (
+        <ul className="pagination">
+          {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
+            <li key={n} className={n === currentPage ? 'active' : undefined}>
+              <Link to="/account" search={{ ...dbLinkSearch, page: n }}>{n}</Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <Pagination pages={pages} />
+      )}
     </>
   )
 }
