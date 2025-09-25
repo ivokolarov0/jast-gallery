@@ -14,6 +14,7 @@ import GameImages from './game-images';
 import GameSidebar from './game-sidebar';
 import GameLoader from './game-loader';
 import { isGameSynced } from '@requests/db';
+import GameVndb from './game-vndb';
 
 type GameProps = {
   page: string;
@@ -28,7 +29,7 @@ const Game = ({ id }:GameProps) => {
   const response = data?.[0];
   const [synced, setSynced] = useState(false);
   const [syncing, setSyncing] = useState(false);
-
+ 
   useEffect(() => {
     (async () => {
       try {
@@ -141,6 +142,11 @@ const Game = ({ id }:GameProps) => {
         >{t('options')}</button>
         <Drawer open={isOpen} handleClose={handleClose}>
           <StatusTags response={response} />
+          <hr />
+          <GameVndb 
+            id={id}
+            synced={synced}
+          />
         </Drawer>
         
       </div>
@@ -163,7 +169,7 @@ const Game = ({ id }:GameProps) => {
           )}
           {response?.attributes && <GameInfo attributes={response?.attributes} />}
         </div>
-        <GameSidebar data={response} />
+        <GameSidebar data={response} synced={synced} />
       </div>
     </div>
   )

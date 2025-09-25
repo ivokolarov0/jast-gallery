@@ -66,6 +66,9 @@
 }
 
 .game-entry__websites {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
   margin-bottom: 10px;
 
@@ -75,5 +78,10 @@
 
   a:hover {
     opacity: .7;
+  }
+
+  img {
+    display: block;
+    border-radius: 50%;
   }
 }

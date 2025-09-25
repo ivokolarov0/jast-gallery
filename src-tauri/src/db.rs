@@ -171,8 +171,6 @@ pub async fn save_game_if_missing(app_handle: AppHandle, payload: String) -> Res
 #[derive(Debug, Deserialize)]
 struct IdPayload {
     pub jast_id: Option<String>,
-    #[allow(non_snake_case)]
-    pub jastId: Option<String>,
 }
 
 #[tauri::command]
@@ -180,7 +178,6 @@ pub async fn is_game_synced(app_handle: AppHandle, payload: String) -> Result<bo
     let payload: IdPayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
     let key = payload
         .jast_id
-        .or(payload.jastId)
         .ok_or_else(|| "missing required parameter: jast_id".to_string())?;
 
     let conn = open_conn(&app_handle)?;
@@ -198,8 +195,6 @@ pub async fn is_game_synced(app_handle: AppHandle, payload: String) -> Result<bo
 #[derive(Debug, Deserialize)]
 struct BulkIdsPayload {
     pub jast_ids: Option<Vec<String>>,
-    #[allow(non_snake_case)]
-    pub jastIds: Option<Vec<String>>,
 }
 
 #[derive(Debug, Serialize)]
@@ -211,9 +206,7 @@ pub struct SyncStatus {
 #[tauri::command]
 pub async fn bulk_is_game_synced(app_handle: AppHandle, payload: String) -> Result<Vec<SyncStatus>, String> {
     let payload: BulkIdsPayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
-    let ids = payload
-        .jast_ids
-        .or(payload.jastIds)
+    let ids = payload.jast_ids
         .unwrap_or_default();
 
     if ids.is_empty() {
@@ -370,7 +363,7 @@ pub async fn search_db_games(app_handle: AppHandle, payload: String) -> Result<V
         out
     } else {
         let placeholders = std::iter::repeat("?").take(tag_keys.len()).collect::<Vec<_>>().join(",");
-        let mut sql2 = sql.replace("GROUP BY g.id HAVING", &format!("AND t.tag_key IN ({}) GROUP BY g.id HAVING", placeholders));
+        let sql2 = sql.replace("GROUP BY g.id HAVING", &format!("AND t.tag_key IN ({}) GROUP BY g.id HAVING", placeholders));
 
         let mut params_all: Vec<&dyn rusqlite::ToSql> = Vec::new();
         params_all.extend(param_refs.drain(..));
@@ -500,4 +493,41 @@ pub async fn search_db_games_paged(app_handle: AppHandle, payload: String) -> Re
     for r in rows { items.push(r.map_err(|e| e.to_string())?); }
 
     Ok(PagedResult { items, total, pages })
+}
+
+#[derive(Debug, Deserialize)]
+struct SetVndbPayload {
+    pub jast_id: String,
+    pub vndb_id: Option<String>,
+}
+
+#[tauri::command]
+pub async fn get_game_vndb_id(app_handle: AppHandle, payload: String) -> Result<Option<String>, String> {
+    let payload: IdPayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
+    let key = payload
+        .jast_id
+        .ok_or_else(|| "missing required parameter: jast_id".to_string())?;
+    let conn = open_conn(&app_handle)?;
+    let v: Option<String> = conn
+        .query_row(
+            "SELECT vndb_id FROM games WHERE jast_id = ?1",
+            params![key],
+            |row| row.get(0),
+        )
+        .optional()
+        .map_err(|e| e.to_string())?;
+    Ok(v)
+}
+
+#[tauri::command]
+pub async fn set_game_vndb_id(app_handle: AppHandle, payload: String) -> Result<bool, String> {
+    let payload: SetVndbPayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
+    let mut conn = open_conn(&app_handle)?;
+    let affected = conn
+        .execute(
+            "UPDATE games SET vndb_id = ?2, updated_at = strftime('%s','now') WHERE jast_id = ?1",
+            params![payload.jast_id, payload.vndb_id],
+        )
+        .map_err(|e| e.to_string())?;
+    Ok(affected > 0)
 }

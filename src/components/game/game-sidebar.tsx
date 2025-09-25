@@ -3,16 +3,20 @@ import { useTranslation } from 'react-i18next';
 
 import { jastMedia } from '@utils/index'
 import { Product, ProductImage } from '@requests/get-game';
+import useGameVndb from '@hooks/use-game-vndb';
 import Download from '@components/download/download';
 
 import JastLogo from '@assets/images/logo-jast.png';
+import VNDBProfile from '@assets/images/vndb-profile.jpg';
 
 type PropTypes = {
   data: Product;
+  synced: boolean;
 }
 
-const GameSidebar = ({ data }: PropTypes) => {
+const GameSidebar = ({ data, synced }: PropTypes) => {
   const { t } = useTranslation();
+  const { vndbId } = useGameVndb(data['code'], synced);
   const coverImage = data?.images?.find(
     (image: ProductImage) => image.type === 'TAIL_PACKAGE_THUMBNAIL_PRODUCT',
   )
@@ -27,10 +31,19 @@ const GameSidebar = ({ data }: PropTypes) => {
       )}
       <ul className="game-entry__websites">
         <li>
-          <a href={`https://jastusa.com/games/${data.code}`} target="_blank">
+          <a href={`https://jastusa.com/games/${data.code}`} target="_blank" title="JastUSA">
             <img src={JastLogo} width="30" height="30" alt="JastUSA" />
           </a>
         </li>
+        {
+          vndbId && (
+            <li>
+              <a href={vndbId} target="_blank" title="VNDB">
+                <img src={VNDBProfile} width="30" height="30" alt="VNDB" />
+              </a>
+            </li>
+          )
+        }
       </ul>
       <p
         dangerouslySetInnerHTML={{ __html: shortDescriptionSanitize }}

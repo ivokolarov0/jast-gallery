@@ -37,3 +37,11 @@ export async function searchDbGamesPaged(query: string, tagKeys: string[], page:
 export async function getDbTags(): Promise<DbTag[]> {
   return invoke<DbTag[]>('list_db_tags');
 }
+
+export async function getGameVndbId(jastId: string): Promise<string | null> {
+  return invoke<string | null>('get_game_vndb_id', { payload: JSON.stringify({ jast_id: jastId }) });
+}
+
+export async function setGameVndbId(jastId: string, vndbId: string | null): Promise<boolean> {
+  return invoke<boolean>('set_game_vndb_id', { payload: JSON.stringify({ jast_id: jastId, vndb_id: vndbId }) });
+}
