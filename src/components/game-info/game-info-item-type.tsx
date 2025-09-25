@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { GameDB } from '@requests/db';
 
-const GameInfoItemType = ({ attr, db }: { attr: any; db: GameDB }) => {
+const GameInfoItemType = ({ attr, db }: { attr: any; db: GameDB | undefined | null }) => {
   const value = attr.value;
 
   if(Array.isArray(value) && attr.code !== 'tag') {

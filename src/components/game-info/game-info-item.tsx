@@ -4,7 +4,7 @@ import type { GameDB } from '@requests/db';
 
 type PropType = {
   attr: ProductAttributeValue
-  db: GameDB
+  db: GameDB | undefined | null
 }
 
 const GameInfoItem = ({ attr, db }: PropType) => {
