@@ -94,6 +94,20 @@ pub struct GameListItem {
     pub cover_image: Option<String>,
 }
 
+#[derive(Debug, Serialize)]
+pub struct GameDbRow {
+    pub jast_id: String,
+    pub name: String,
+    pub description: Option<String>,
+    pub release_date: Option<String>,
+    pub cover_image: Option<String>,
+    pub gallery_json: Option<String>,
+    pub product_code: Option<String>,
+    pub vndb_id: Option<String>,
+    pub features_json: Option<String>,
+    pub tags: Vec<TagPayload>,
+}
+
 #[tauri::command]
 pub async fn save_game_if_missing(app_handle: AppHandle, payload: String) -> Result<bool, String> {
     let payload: GamePayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
@@ -522,7 +536,7 @@ pub async fn get_game_vndb_id(app_handle: AppHandle, payload: String) -> Result<
 #[tauri::command]
 pub async fn set_game_vndb_id(app_handle: AppHandle, payload: String) -> Result<bool, String> {
     let payload: SetVndbPayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
-    let mut conn = open_conn(&app_handle)?;
+    let conn = open_conn(&app_handle)?;
     let affected = conn
         .execute(
             "UPDATE games SET vndb_id = ?2, updated_at = strftime('%s','now') WHERE jast_id = ?1",
@@ -530,4 +544,61 @@ pub async fn set_game_vndb_id(app_handle: AppHandle, payload: String) -> Result<
         )
         .map_err(|e| e.to_string())?;
     Ok(affected > 0)
+}
+
+#[tauri::command]
+pub async fn get_game_db(app_handle: AppHandle, payload: String) -> Result<Option<GameDbRow>, String> {
+    let payload: IdPayload = serde_json::from_str(&payload).map_err(|e| e.to_string())?;
+    let key = payload
+        .jast_id
+        .ok_or_else(|| "missing required parameter: jast_id".to_string())?;
+    let conn = open_conn(&app_handle)?;
+
+    // Fetch the game row first (no wildcard select, map exact columns)
+    let mut stmt = conn
+        .prepare(
+            "SELECT jast_id, name, description, release_date, cover_image, gallery_json, product_code, vndb_id, features_json FROM games WHERE jast_id = ?1",
+        )
+        .map_err(|e| e.to_string())?;
+    let mut game: Option<GameDbRow> = stmt
+        .query_row(params![key.clone()], |row| {
+            Ok(GameDbRow {
+                jast_id: row.get(0)?,
+                name: row.get(1)?,
+                description: row.get(2).ok(),
+                release_date: row.get(3).ok(),
+                cover_image: row.get(4).ok(),
+                gallery_json: row.get(5).ok(),
+                product_code: row.get(6).ok(),
+                vndb_id: row.get(7).ok(),
+                features_json: row.get(8).ok(),
+                tags: Vec::new(),
+            })
+        })
+        .optional()
+        .map_err(|e| e.to_string())?;
+
+    if game.is_none() {
+        return Ok(None);
+    }
+
+    // Fetch tags for the game
+    let mut stmt_tags = conn
+        .prepare(
+            "SELECT t.tag_key, t.title FROM tags t
+             JOIN game_tags gt ON gt.tag_id = t.id
+             JOIN games g ON g.id = gt.game_id
+             WHERE g.jast_id = ?1 ORDER BY t.title COLLATE NOCASE",
+        )
+        .map_err(|e| e.to_string())?;
+    let rows = stmt_tags
+        .query_map(params![key], |row| Ok(TagPayload { key: row.get(0)?, title: row.get(1)? }))
+        .map_err(|e| e.to_string())?;
+
+    let mut tags: Vec<TagPayload> = Vec::new();
+    for r in rows { tags.push(r.map_err(|e| e.to_string())?); }
+
+    if let Some(ref mut g) = game { g.tags = tags; }
+
+    Ok(game)
 }

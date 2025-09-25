@@ -1,8 +1,10 @@
+import { Link } from "@tanstack/react-router";
+import type { GameDB } from '@requests/db';
 
-const GameInfoItemType = ({ attr }: any) => {
+const GameInfoItemType = ({ attr, db }: { attr: any; db: GameDB }) => {
   const value = attr.value;
 
-  if(Array.isArray(value)) {
+  if(Array.isArray(value) && attr.code !== 'tag') {
     const values = value.map((val: string) => attr.configuration.choices[val].en_US).join(', ');
     return <div>{values}</div>;
   }
@@ -16,6 +18,9 @@ const GameInfoItemType = ({ attr }: any) => {
     case 'merchandise_url':
       return <a href={value} target="_blank">{value}</a>;
     case 'tag':
+      if(db) {
+        return db.tags.map((tag: any) => <Link key={tag.key} to={`/account?source=db&dbTags=${tag.key}`} className="tag">{tag.title}</Link>);
+      }
       const tags = Object.values(value).map((val: unknown) => attr.configuration.choices[val as string].en_US).join(', ');
       return <div>{tags}</div>;
     default:

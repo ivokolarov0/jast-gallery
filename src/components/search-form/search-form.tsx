@@ -15,7 +15,7 @@ const SearchForm = () => {
   const [useDb, setUseDb] = useState<boolean>(source === 'db');
   const [tags, setTags] = useState<DbTag[]>([]);
   const selected = (dbTags || '').split(',').filter(Boolean);
- 
+
   useEffect(() => {
     if (!useDb) return;
     (async () => {

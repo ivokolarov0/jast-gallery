@@ -13,8 +13,8 @@ import GameVideo from './game-video';
 import GameImages from './game-images';
 import GameSidebar from './game-sidebar';
 import GameLoader from './game-loader';
-import { isGameSynced } from '@requests/db';
 import GameVndb from './game-vndb';
+import useGetGameDB from '@hooks/use-get-game-db';
 
 type GameProps = {
   page: string;
@@ -29,15 +29,13 @@ const Game = ({ id }:GameProps) => {
   const response = data?.[0];
   const [synced, setSynced] = useState(false);
   const [syncing, setSyncing] = useState(false);
- 
+  const { data: dataDB } = useGetGameDB({ id });
+
   useEffect(() => {
-    (async () => {
-      try {
-        const isSynced = await isGameSynced(id);
-        setSynced(Boolean(isSynced));
-      } catch {}
-    })();
-  }, [id]);
+   if(dataDB) {
+    setSynced(true);
+   }
+  }, [dataDB]);
 
   const extractEnglishTags = (attributes: any[] | undefined) => {
     if (!Array.isArray(attributes)) return [] as { key: string; title: string }[];
@@ -128,7 +126,7 @@ const Game = ({ id }:GameProps) => {
     <div className="game-entry">
       <div className="game-entry__top">
         <BackBtn />
-        {synced ? (
+        {dataDB ? (
           <span className="badge" title="Synced to DB">Synced</span>
         ) : (
           <button type="button" className="btn" disabled={syncing} onClick={handleSync}>
@@ -145,7 +143,7 @@ const Game = ({ id }:GameProps) => {
           <hr />
           <GameVndb 
             id={id}
-            synced={synced}
+            db={dataDB}
           />
         </Drawer>
         
@@ -167,7 +165,7 @@ const Game = ({ id }:GameProps) => {
               <div className="details">{date}</div>
             </div>
           )}
-          {response?.attributes && <GameInfo attributes={response?.attributes} />}
+          {response?.attributes && <GameInfo attributes={response?.attributes} db={dataDB} />}
         </div>
         <GameSidebar data={response} synced={synced} />
       </div>

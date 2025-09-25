@@ -1,13 +1,15 @@
 import { ProductAttributeValue } from "@requests/get-game";
 import GameInfoItemType from "./game-info-item-type";
+import type { GameDB } from '@requests/db';
 
 type PropType = {
   attr: ProductAttributeValue
+  db: GameDB
 }
 
-const GameInfoItem = ({ attr }: PropType) => {
+const GameInfoItem = ({ attr, db }: PropType) => {
   const title = attr.code.replace(/_/g, ' ');
-
+  
   if(attr.code === 'video_html') {
     return null;
   }
@@ -16,7 +18,7 @@ const GameInfoItem = ({ attr }: PropType) => {
     <div className="details-wrapper">
       <h5>{title}</h5>
       <div className="details">
-        <GameInfoItemType attr={attr} />
+        <GameInfoItemType db={db} attr={attr} />
       </div>
     </div>
   )

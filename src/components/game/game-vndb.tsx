@@ -18,8 +18,8 @@ const Loader = () => (
   </ContentLoader>
 )
 
-const GameVndb = ({ id, synced }: {id: string, synced: boolean}) => {
-  const { vndbId, isLoading, save, saving } = useGameVndb(id, synced);
+const GameVndb = ({ id, db }: {id: string, db: any}) => {
+  const { vndbId, isLoading, save, saving } = useGameVndb(id, db?.jast_id !== undefined);
   const [vndbValue, setVndbValue] = useState('');
   const [justSaved, setJustSaved] = useState(false);
 
@@ -50,18 +50,17 @@ const GameVndb = ({ id, synced }: {id: string, synced: boolean}) => {
     <div style={{ marginTop: 12 }}>
       <h5>VNDB</h5>
       <div className="form-field">
-        
         <input
           type="text"
           value={vndbValue}
           className='field'
           onChange={(e) => setVndbValue(e.target.value)}
           placeholder="e.g. https://vndb.org/v00000"
-          disabled={!synced || isLoading}
+          disabled={isLoading}
           style={{ marginBottom: 15 }}
         />
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <button type="button" className="btn" onClick={handleSaveVndb} disabled={!synced || saving}>
+          <button type="button" className="btn" onClick={handleSaveVndb} disabled={saving}>
             {saving ? 'Saving…' : 'Save'}
           </button>
           {justSaved && <span className="hint" style={{ color: 'var(--green)', fontSize: 12 }}>Saved</span>}

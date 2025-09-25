@@ -10,6 +10,19 @@ export type DbTag = { key: string; title: string };
 
 export type PagedDbResult = { items: GameListItem[]; total: number; pages: number };
 
+export type GameDB = {
+  jast_id: string;
+  name: string;
+  description: string | null;
+  release_date: string | null;
+  cover_image: string | null;
+  gallery_images: string[];
+  product_code: string | null;
+  vndb_id: string | null;
+  features: any | null;
+  tags: { key: string; title: string }[];
+}
+
 export async function isGameSynced(jastId: string): Promise<boolean> {
   return invoke<boolean>('is_game_synced', { payload: JSON.stringify({ jast_id: jastId }) });
 }
@@ -41,7 +54,11 @@ export async function getDbTags(): Promise<DbTag[]> {
 export async function getGameVndbId(jastId: string): Promise<string | null> {
   return invoke<string | null>('get_game_vndb_id', { payload: JSON.stringify({ jast_id: jastId }) });
 }
-
+  
 export async function setGameVndbId(jastId: string, vndbId: string | null): Promise<boolean> {
   return invoke<boolean>('set_game_vndb_id', { payload: JSON.stringify({ jast_id: jastId, vndb_id: vndbId }) });
+}
+
+export async function getGameDB(jastId: string): Promise<GameDB | null> {
+  return invoke<GameDB | null>('get_game_db', { payload: JSON.stringify({ jast_id: jastId }) });
 }

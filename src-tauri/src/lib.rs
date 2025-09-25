@@ -44,7 +44,7 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_store::Builder::default().build())
-        .invoke_handler(tauri::generate_handler![greet, password_check, crate::db::save_game_if_missing, crate::db::is_game_synced, crate::db::bulk_is_game_synced, crate::db::search_games_by_tags, crate::db::list_db_tags, crate::db::search_db_games, crate::db::search_db_games_paged, crate::db::get_game_vndb_id, crate::db::set_game_vndb_id])
+        .invoke_handler(tauri::generate_handler![greet, password_check, crate::db::save_game_if_missing, crate::db::is_game_synced, crate::db::bulk_is_game_synced, crate::db::search_games_by_tags, crate::db::list_db_tags, crate::db::search_db_games, crate::db::search_db_games_paged, crate::db::get_game_vndb_id, crate::db::set_game_vndb_id, crate::db::get_game_db])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
